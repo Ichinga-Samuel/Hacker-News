@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  {% block title %}
+    <title>Tech Crunch</title>
+  {% endblock  %}
+</head>
+<body>
+{% csrf_token %}
+<script class="">
+  document.addEventListener('readystatechange', e => {
+      if (e.target.readyState === "complete") {
+          let elems = document.getElementsByClassName('add_comment')
+          for(let el of elems){
+            el.addEventListener('click', async e => {
+              let url = el.getAttribute('url')
+              let data = {}
+              let comment = el.getAttribute('cid')
+              let t;
+              if(comment){
+                  t = document.getElementById(`t${comment}`)
+                  let text = t.value
+                  data['comment_id'] = comment
+                  data['text'] = text
+              }
+              let story = el.getAttribute('sid')
+              if(story){
+                  t = document.getElementById(`t${story}`)
+                  let text = t.value
+                  data['story_id'] = story
+                  data['text'] = text
+              }
+
+              let user_id = {{request.user.id}}
+              data['user_id'] = user_id
+              data = JSON.stringify(data)
+              const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+              let headers = {'X-CSRFToken': csrftoken, 'Content-Type': 'application/json'}
+              let res = await fetch(url, {method: 'POST', mode: "same-origin", headers, body: data, })
+              res = await res.json()
+              if(res){t.value = ''; location.reload()}
+      })}}
+  })
+</script>
+  {% block header %}
+    <header class="row container-fluid">
+      <nav class="navbar navbar-expand-md">
+        <div class="container-fluid">
+          <a href="{% url 'news:home' %}" class="navbar-brand">Tech Crunch</a>
+          <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-trigger="#nav-contents">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="nav-contents">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="{% url 'news:home' %}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'news:stories' %}" class="nav-link">Top Stories</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'news:ask' %}" class="nav-link">Ask Stories</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'news:show' %}" class="nav-link">Show Stories</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'jobs:jobs' %}" class="nav-link">Jobs</a>
+              </li>
+            </ul>
+            <div class="navbar-nav">
+                <button class="nav-item" data-bs-target="#search" data-bs-toggle="collapse"><span class="nav-link material-icons">search</span></button>
+            </div>
+          </div>
+        </div>
+      </nav>
+        <div class="col-md-4 col-md-offset-8 col-sm-auto ms-auto p-2 collapse" id="search">
+          <form action="{% url 'news:search' %}" class="col-auto" method="get">
+            <div class="mb-1 d-flex">
+              <input type="text" class="form-control" placeholder="search" name="search" style="border-style: none">
+              <button class="me-auto align-self-center btn" style="border-style: none" type="submit"><span class="mx-auto align-baseline material-icons">search</span></button>
+            </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="true" name="all">
+                <label class="form-check-label" for="inlineCheckbox">Everywhere</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true" name="ask">
+                <label class="form-check-label" for="inlineCheckbox1">Ask</label>
+              </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="true" name="show">
+              <label class="form-check-label" for="inlineCheckbox2">Show</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true" name="job">
+              <label class="form-check-label" for="inlineCheckbox3">Job</label>
+            </div>
+          </form>
+        </div>
+    </header>
+  {% endblock header %}
+  {% block content %}
+  {% endblock content %}
+  {% block paginate %}
+    {% if is_paginated %}
+      <div class="container-fluid d-flex justify-content-center mt-4 mx-auto">
+        <nav class="">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo;</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+      {% endif %}
+      {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+        {% else %}
+          <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a></li>
+      {% else %}
+        <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+      </div>
+    {% endif %}
+  {% endblock paginate %}
+</body>
+</html>

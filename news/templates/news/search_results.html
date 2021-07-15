@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if null %}
+      <p class="container mt-3 h6 fst-italic">No Result Matching Your Query</p>
+    {% endif %}
+  {% if not null %}
+    <main class="container-fluid mt-3">
+    {% if stories %}
+      <section class="container">
+      <h6 class="">Story Results</h6>
+      {% for story in stories %}
+        <div class="col-auto">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if asks  %}
+      <section class="container">
+      <h6 class="">Ask Stories Results</h6>
+      {% for story in asks %}
+        <div class="col">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if shows %}
+      <section class="container">
+      <h6 class="">Show Stories Results</h6>
+      {% for story in shows %}
+        <div class="col-auto">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if jobs %}
+      <section class="container">
+      <h6 class="">Job Results</h6>
+      {% for story in jobs %}
+        <div class="col-auto">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </main>
+  {% endif %}
+{% endblock content %}

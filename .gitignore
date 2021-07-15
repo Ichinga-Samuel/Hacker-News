@@ -1,0 +1,14 @@
+.git/
+.idea/
+config/
+static/
+static_root/
+media/
+**/migrations/
+**/__pycache__/
+**/static/
+**/media/
+*.sqlite3
+*.yaml
+.gcloudignore
+*.env

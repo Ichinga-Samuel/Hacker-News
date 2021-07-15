@@ -1,0 +1,14 @@
+
+<div class="card" style="width: 500px">
+  <div class="card-body">
+    <h6 class="card-title">{{ res.title }}</h6>
+    {% if res.text %}
+      {% autoescape off %}
+        <p class="card-text">{{ res.text|truncatewords:30 }}</p>
+      {% endautoescape %}
+    {% endif %}
+  </div>
+  <div class="card-footer">
+    <a href="{{ res.get_absolute_url }}" class="ms-auto">Read More</a>
+  </div>
+</div>

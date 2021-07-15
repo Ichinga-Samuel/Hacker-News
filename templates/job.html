@@ -1,0 +1,17 @@
+{% load humanize %}
+
+<div class=" card w-100 h-100" style="width: 400px;">
+  <div class="card-body">
+    <h6 class="card-title">{{ job.title|title }}</h6>
+    {% if job.text %}
+      <p class="card-text">{{ job.text|striptags|truncatewords:5  }}...</p>
+    {% endif %}
+  </div>
+  <div class="card-footer p-0 m-0">
+    <div class="row p-0">
+      <div class="col-auto p-0 mx-auto">{{ job.by|upper }}</div>
+      <div class="col-auto p-0 mx-auto">{{ story.time|date }}</div>
+    </div>
+    <div class="row p-0"><a href="{{ job.get_absolute_url }}" class="btn col-auto ms-auto me-1 ">Read More</a></div>
+  </div>
+</div>

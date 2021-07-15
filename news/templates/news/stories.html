@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <main class="container">
+     <div class="row">
+    {% for story in stories %}
+      <div class="col-md-6 col-sm-12 col-lg-4 my-md-2">
+        {% include 'story.html' with story=story %}
+      </div>
+    {% endfor %}
+  </div>
+  </main>
+
+{% endblock content %}

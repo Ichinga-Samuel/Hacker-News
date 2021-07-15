@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}
+  <title>{{ story.title }}</title>
+{% endblock %}
+{% block content %}
+  <main class="container-fluid">
+    <section class="container">
+      {% if story.url %}
+        <article class="container ratio ratio-1x1">
+          <iframe src="{{ story.url }}" class="" frameborder="0" ></iframe>
+        </article>
+        {% else %}
+        {% autoescape off %}
+           <h3 class="">{{ story.title }}</h3>
+          <p class="">
+            {{ story.text }}
+          </p>
+        {% endautoescape %}
+      {% endif %}
+      <article class=""></article>
+    </section>
+    <div class="container mt-3 p-0">
+      <hr class="p-0">
+      <div class="row">
+        <button class="col-auto" data-bs-toggle="collapse" data-bs-target="#comments">Comments</button>
+        <span class="col-auto">{{ story.reviews }} Comments</span>
+        <span class="col-auto badge bg-secondary">{{ story.score }}</span>
+        <a href="" class="col-auto"><span class="mx material-icons">arrow_upward</span></a>
+        <a href="" class="col-auto"><span class="mx material-icons">arrow_downward</span></a>
+        {% if request.user.is_authenticated %}
+          <button class="col-auto" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
+        {% endif %}
+    </div>
+      <hr class="p-0">
+    </div>
+    <div class="container collapse" id="comment">
+      <textarea url="" id="t{{ story.id }}" cols="30" rows="4" class="form-control"></textarea>
+      <button class="col-auto add_comment mt-2" url="{% url 'news:comment' %}" sid="{{ story.id }}">Submit</button>
+    </div>
+    <section class="container collapse" id="comments">
+      {% if story.comments.all %}
+          {% for comment in story.comments.all %}
+            {% include 'comment.html' with comment=comment %}
+          {% endfor %}
+      {% endif %}
+    </section>
+  </main>
+{% endblock content %}
