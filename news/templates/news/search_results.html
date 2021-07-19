@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  <title>Hackers Digest:Search Results for {{ query }}</title>
+{% endblock %}
 {% block content %}
   {% if null %}
-      <p class="container mt-3 h6 fst-italic">No Result Matching Your Query</p>
+      <p class="container mt-3 h5 fst-italic shell">No Result Matching Your Query:{{ query }}</p>
     {% endif %}
   {% if not null %}
-    <main class="container-fluid mt-3">
+    <main class="container-fluid mt-5">
     {% if stories %}
-      <section class="container">
-      <h6 class="">Story Results</h6>
+      <section class="container mt-4">
+      <h5 class="br col-auto">Search Results</h5>
       {% for story in stories %}
         <div class="col-auto">
           {% include 'search.html' with res=story %}

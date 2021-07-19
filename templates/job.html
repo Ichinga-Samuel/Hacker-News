@@ -2,16 +2,17 @@
 
 <div class=" card w-100 h-100" style="width: 400px;">
   <div class="card-body">
-    <h6 class="card-title">{{ job.title|title }}</h6>
+    <h6 class=""><a href="{{ job.get_absolute_url }}" class="text-decoration-none">{{ job.title|title }}</a></h6>
     {% if job.text %}
       <p class="card-text">{{ job.text|striptags|truncatewords:5  }}...</p>
     {% endif %}
   </div>
-  <div class="card-footer p-0 m-0">
-    <div class="row p-0">
-      <div class="col-auto p-0 mx-auto">{{ job.by|upper }}</div>
-      <div class="col-auto p-0 mx-auto">{{ story.time|date }}</div>
+  <div class="card-footer p-2 mx-0 hed">
+    <div class="row m-auto">
+      <div class="col-auto align-top">{{ job.by|upper }}</div>
+      <div class="col-auto align-top">{{ story.time|date }}</div>
+      <a href="{{ job.get_absolute_url }}" class="col-auto ms-auto align-top btn py-0">Read More</a>
     </div>
-    <div class="row p-0"><a href="{{ job.get_absolute_url }}" class="btn col-auto ms-auto me-1 ">Read More</a></div>
+
   </div>
 </div>

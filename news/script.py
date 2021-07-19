@@ -11,12 +11,13 @@ from polls.models import Poll, PollOptions, PollComments
 
 User = get_user_model()
 try:
-    anon = User.objects.get(username='anons')  # anonymous user for items without a specified user
+    anon = User.objects.get(username='anon')  # anonymous user for items without a specified user
 except User.DoesNotExist:
-    u = User(username='anons', about='I am anon')
-    u.set_password('anon12345')
-    u.save(force_insert=True)
-    anon = User.objects.get(username='anons')
+    max_id = User.objects.aggregate(Max('id'))['id__max']
+    u = User(username='anons', about='I am anonymous', id=max_id)
+    u.set_password('123456anon')
+    u.save()
+    anon = User.objects.get(username='anon')
 
 
 class NewsApi:
@@ -294,7 +295,8 @@ class NewsApi:
             max_id = None
 
         if max_id:
-            for i in range(c_max + 1, max_id + 1):
+            print(f'uploading {max_id-c_max} items')
+            for i in reversed(range(c_max + 1, max_id + 1)):
                 try:
                     self.set_item(i, with_comments=with_comments)
                 except Exception as err:

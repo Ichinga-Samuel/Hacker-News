@@ -36,6 +36,7 @@ class StoryListView(ListView):
 class AskStoryListView(ListView):
     template_name = 'news/ask_stories.html'
     context_object_name = 'stories'
+    paginate_by = 10
 
     def get_queryset(self):
         stories = Story.objects.filter(title__icontains='Ask HN').order_by('-time', '-score')
@@ -45,6 +46,7 @@ class AskStoryListView(ListView):
 class ShowStoryListView(ListView):
     template_name = 'news/show_stories.html'
     context_object_name = 'stories'
+    paginate_by = 10
 
     def get_queryset(self):
         stories = Story.objects.filter(title__icontains='Show HN').order_by('-time', '-score')
@@ -95,12 +97,11 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         results = self.get_results()
-        print(results, results['stories'])
+        context['query'] = self.request.GET.get('search', '')
         if any(len(result) for result in results.values()):
             context = {**context, **results, 'null': False}
         else:
             context['null'] = True
-        print(context['asks'])
         return context
 
 

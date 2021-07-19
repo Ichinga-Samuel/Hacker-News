@@ -1,8 +1,86 @@
+html {
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+    /*overflow-x: hidden;*/
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  background-color: #e1eedd !important;
+}
+
+.shell{
+    flex: 1 0 auto !important;
+}
+
+.foot{
+    flex-shrink: 0;!important;
+}
+
+footer{
+    background-color: #183a1d;
+    color: #f6c453;
+}
+
+header{
+  background-color: #943d24 !important;
+}
+
+.hed{
+    background-color: #943d24 !important;
+    color: #f6c453;
+}
+
+.nav-link, .navbar-brand{
+  color: #f6c453;
+  font-size: larger;
+}
+
+.test{
+    color: blueviolet !important;
+}
+
+button, .btn, .not{
+    background-color: #183a1d;
+    color: #f6c453;
+}
+
+.br{
+    color: #f6c453;
+}
+
+.not a{
+    color: #f6c453;
+}
 
 .profile{
-  height: 25px;
-  width: 25px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
+    background-color: blueviolet;
+    color: #f6c453;
+}
+
+.pc{
+    max-width: 25vw;
+    max-height: 25vw;
+    border-radius: 50%; border: 1px double;
+    line-height: 25vw;
+}
+.pi{
+    font-size: 12.5vw;
+}
+
+.google{
+    background-color: blue !important;
+}
+
+.google a{
+     color: #f6c453; !important;
+     text-decoration: none;
 }

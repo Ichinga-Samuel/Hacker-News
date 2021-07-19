@@ -2,16 +2,16 @@
 
 <div class="card h-100 w-100" style="width: 400px">
   <div class="card-body">
-    <h5 class="card-title">{{ story.title|title }}</h5>
+    <h5 class="card-title"><a href="{{ story.get_absolute_url }}" class="test text-decoration-none">{{ story.title|title }}</a></h5>
     {% if story.text %}
       <p class="card-text">{{ story.text|striptags|truncatewords:5 }}...</p>
     {% endif %}
   </div>
-  <div class="card-footer p-0 m-0">
-    <div class="row p-0">
-      <div class="col-auto p-0 mx-auto">{{ story.by|upper }}</div>
-      <div class="col-auto p-0 mx-auto">{{ story.time|date }}</div>
+  <div class="card-footer p-2 hed">
+    <div class="row p-0 m-auto">
+      <div class="col-auto">{{ story.by|upper }}</div>
+      <div class="col-auto">{{ story.time|date }}</div>
+      <a href="{{ story.get_absolute_url }}" class="btn col-auto ms-auto">Read More</a>
     </div>
-    <div class="row p-0"><a href="{{ story.get_absolute_url }}" class="btn col-auto ms-auto me-1 ">Read More</a></div>
   </div>
 </div>

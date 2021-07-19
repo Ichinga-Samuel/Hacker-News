@@ -11,7 +11,7 @@ class Story(models.Model):
     url = models.URLField(blank=True)
     score = models.IntegerField(default=0)
     text = models.TextField(blank=True)
-    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='stories')
     reviews = models.IntegerField(default=0)
 
     class Meta:
@@ -34,7 +34,7 @@ class StoryComments(models.Model):
     text = models.TextField(blank=True)
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
     comment = models.ForeignKey('StoryComments', on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
-    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     time = models.DateTimeField(default=timezone.now)
 
     class Meta:

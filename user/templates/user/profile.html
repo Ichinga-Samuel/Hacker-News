@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container p-0">
+  <section class="container hed pt-5 ">
+    <div class="col-6 mx-auto pc"><p class="pi col-12 m-auto text-uppercase text-center" id="usn">{{ user.username|slice:2}}</p></div>
+    <div class="row col">
+      <div class="row col-auto ">
+        <div class="col-auto not py-1"><p class="m-auto text-center">Stories <span class="badge rounded-pill bg-dark">{{ user.stories.all|length }}</span></p></div>
+        <div class="col-auto not mx-3 py-1"><p class="m-auto">Jobs <span class="badge rounded-pill bg-dark">{{ user.jobs.all|length}}</span></p></div>
+        <div class="col-auto not py-1"><p class="m-auto ">Comments <span class="badge rounded-pill bg-dark">{{ user.comments.all|length }}</span></p></div>
+      </div>
+      <button class="btn ms-auto col-auto " data-bs-target="#edit" data-bs-toggle="modal"><span class="material-icons align-top">edit</span> Edit Profile</button>
+    </div>
+  </section>
+  <section class="container mt-5 p-0">
+    <div class="col-auto">
+    <h5 class="">About</h5>
+      {% autoescape off %}
+        <p class="" id="abt">{{ user.about|default:"Tell us about you" }}</p>
+      {% endautoescape %}
+    </div>
+  </section>
+  <div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Profile</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="pedit">
+            <div class="mb-1 col-auto">
+            <label for="un" class="form-label">Username</label>
+            <input type="text" id="un" class="form-control" name="username" value="{{ user.username }}">
+          </div>
+            <div class="mb-1 col-auto">
+              <label for="em" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" id="em" value="{{ user.email }}">
+            </div>
+            <div class="mb-1 col-auto">
+              <label for="ab" class="form-label">About</label>
+              <textarea id="ab" cols="30" rows="5" class="form-control" name="about">{{ user.about }}</textarea>
+            </div>
+            <div class="mb-1 col-auto">
+              <button id="tt" class="btn" type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="md" data-bs-dismiss="modal">Close</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  {% csrf_token %}
+   <script>
+    let form = document.getElementById('pedit')
+    form.addEventListener('submit', async ev => {
+        ev.preventDefault()
+        let data = {}
+        let ub = document.getElementById('un')
+        let em = document.getElementById('em')
+        let ab = document.getElementById('ab')
+        for(let f of [ub, em, ab]){
+            data[f.name] = f.value
+        }
+        data = JSON.stringify(data)
+        let url = window.location.href
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          let headers = {'X-CSRFToken': csrftoken, 'Content-Type': 'application/json'}
+          let res = await fetch(url, {method: 'POST', mode: "same-origin", headers, body: data})
+          res = await res.json()
+          if(res?.ok === true){
+              let pf = document.getElementById('usn')
+              pf.innerText = ub.value.slice(0, 2)
+              let abt = document.getElementById('abt')
+              abt.innerText = ab.value
+              let md = document.getElementById('md')
+              md.click()
+          }
+    })
+   </script>
+</main>
+{% endblock %}

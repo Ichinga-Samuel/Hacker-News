@@ -10,7 +10,7 @@ class Job(models.Model):
     time = models.DateTimeField(default=timezone.now)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
-    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='jobs')
 
     class Meta:
         verbose_name = 'Job'

@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  <title>Hackers Digest: Ask Stories</title>
+{% endblock %}
 {% block content %}
-  <main class="container">
-    <h3 class="">Ask Stories</h3>
+  <main class="container mt-5">
+    <h3 class="br">Ask Stories</h3>
      <div class="row">
     {% for story in stories %}
-      <div class="col-md-6 col-sm-12 col-lg-4 my-md-2">
+      <div class="col-sm-12 col-md-6 col-lg-4 my-md-2">
         {% include 'story.html' with story=story %}
       </div>
     {% endfor %}

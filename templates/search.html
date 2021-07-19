@@ -1,14 +1,16 @@
 
-<div class="card" style="width: 500px">
+<div class="card w-75" style="width: 500px">
   <div class="card-body">
-    <h6 class="card-title">{{ res.title }}</h6>
+    <h6 class=""><a href="{{ res.get_absolute_url }}" class="text-decoration-none">{{ job.title|title }}</a></h6>
     {% if res.text %}
       {% autoescape off %}
         <p class="card-text">{{ res.text|truncatewords:30 }}</p>
       {% endautoescape %}
     {% endif %}
   </div>
-  <div class="card-footer">
-    <a href="{{ res.get_absolute_url }}" class="ms-auto">Read More</a>
+  <div class="card-footer hed">
+    <div class="row">
+      <button class="col-auto ms-auto"><a href="{{ res.get_absolute_url }}" class="text-decoration-none not">Read More</a></button>
+    </div>
   </div>
 </div>

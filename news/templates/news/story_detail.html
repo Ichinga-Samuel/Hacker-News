@@ -17,23 +17,24 @@
           </p>
         {% endautoescape %}
       {% endif %}
-      <article class=""></article>
     </section>
     <div class="container mt-3 p-0">
       <hr class="p-0">
-      <div class="row">
-        <button class="col-auto" data-bs-toggle="collapse" data-bs-target="#comments">Comments</button>
-        <span class="col-auto">{{ story.reviews }} Comments</span>
-        <span class="col-auto badge bg-secondary">{{ story.score }}</span>
-        <a href="" class="col-auto"><span class="mx material-icons">arrow_upward</span></a>
-        <a href="" class="col-auto"><span class="mx material-icons">arrow_downward</span></a>
+      <div class="row m-auto">
+        <button class="col-auto rounded-3 me-2" data-bs-toggle="collapse" data-bs-target="#comments"><span class="col-auto">{{ story.reviews }} Comments</span></button>
+        <span class="not col-auto rounded-3 ms-2"><span class="not align-top">Score {{ story.score }}</span>
+          <span class="">
+            <a href="" class=""><span class="material-icons not">arrow_upward</span></a>
+            <a href="" class=""><span class="material-icons not">arrow_downward</span></a>
+          </span>
+        </span>
         {% if request.user.is_authenticated %}
-          <button class="col-auto" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
+          <button class="ms-1 col-auto" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
         {% endif %}
     </div>
       <hr class="p-0">
     </div>
-    <div class="container collapse" id="comment">
+    <div class="container collapse my-2" id="comment">
       <textarea url="" id="t{{ story.id }}" cols="30" rows="4" class="form-control"></textarea>
       <button class="col-auto add_comment mt-2" url="{% url 'news:comment' %}" sid="{{ story.id }}">Submit</button>
     </div>

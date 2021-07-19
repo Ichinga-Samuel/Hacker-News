@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <main class="container">
+    <form action="{% url 'login' %}" class="col-sm-auto col-md-4 mx-auto mt-5 p-0" method="post">
+      {% csrf_token %}
+     {%if form.errors%}
+          <div class="has-error col-auto my-1">
+            Correct the error(s) Below
+            {% if form.non_field_errors %}
+              {% for error in form.non_field_errors %}
+                <p class="has-error">{{ error }}</p>
+              {% endfor %}
+           {% endif %}
+          </div>
+        {% endif %}
+      <div class="col-auto mb-3">
+        <label for="form.username.id_for_label" class="form-label">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          {% for err in form.username.errors %}
+            <div class="invalid-feedback">{{ err }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="col-auto  mb-3">
+        <label for="form.password.id_for_label" class="form-label">Password</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          {% for err in form.password.errors %}
+            <div class="invalid-feedback">{{ err }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="col-auto">
+        <button class="btn">Login</button>
+      </div>
+        <input type="hidden" name="next" value="{{ next }}">
+      <div class="col-auto d-flex justify-content-between">
+        {#        <p>Forgot Password? click <a href="{%  url 'reset' %}">here</a> to reset your password</p>#}
+        <p class="">Not registered? click <a href="{% url 'signup' %}" class="">here</a> to sign up</p>
+      </div>
+
+    </form>
+    <div class="row col-sm-auto col-md-4 mx-auto p-0">
+      <hr class="col-5 m-auto"> <p class="p-0 m-0 col-2 m-auto text-center">OR</p> <hr class="col-5 m-auto">
+    </div>
+
+    <div class="col-sm-auto col-md-4 mx-auto mt-3 p-0">
+      <div class="mx-auto col-6 p-0"><button class="btn btn-primary text-center google"><a href="{% url 'social:begin' 'google-oauth2' %}" class="">Login With Google</a></button></div>
+    </div>
+  </main>
+{% endblock content %}
