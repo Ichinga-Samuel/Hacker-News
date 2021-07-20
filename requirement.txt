@@ -8,7 +8,7 @@ chardet==4.0.0
 cryptography==3.4.7
 cssutils==2.3.0
 defusedxml==0.7.1
-Django==3.2.5
+Django==3.1.1
 django-environ==0.4.5
 django-inlinecss==0.3.0
 django-storages==1.11.1
