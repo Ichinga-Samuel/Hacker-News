@@ -13,8 +13,8 @@
 # limitations under the License.
 
 # [START django_app]
-runtime: python39
-entrypoint: gunicorn -b :$PORT main:app
+runtime: python37
+
 
 handlers:
 # This configures Google App Engine to serve the files in the app's static
