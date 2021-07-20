@@ -17,7 +17,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stories'] = Story.objects.exclude(title__iregex=r'^(Ask HN|Show HN)').order_by('-score', '-time')[:5]
-        context['jobs'] = Job.objects.all().order_by('-time')[:5]
+        context['jobs'] = Job.objects.all().order_by('-time')[:10]
         context['asks'] = Story.objects.filter(title__icontains='Ask HN').order_by('-time', '-score')[:5]
         context['shows'] = Story.objects.filter(title__icontains='Show HN').order_by('-time', '-score')[:5]
         return context

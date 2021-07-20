@@ -1,5 +1,5 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django import forms
 
@@ -33,4 +33,30 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", )
+        fields = ("username", "email",)
+
+
+class ResetPasswordForm(PasswordResetForm):
+    email = forms.EmailField(max_length=254, help_text='Enter the email address you registered with.', widget=forms.EmailInput(attrs=attrs))
+
+
+class MyPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label="Old password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True, **attrs}),
+    )
+
+
+class PasswordChange(SetPasswordForm):
+
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs=attrs),
+    )

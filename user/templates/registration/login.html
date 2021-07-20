@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
+{% block navbar %}
+  {% include 'banner.html' %}
+{% endblock navbar %}
 {% block content %}
   <main class="container">
-    <form action="{% url 'login' %}" class="col-sm-auto col-md-4 mx-auto mt-5 p-0" method="post">
+    <form action="{% url 'user:login' %}" class="col-sm-auto col-md-5 mx-auto mt-5 p-0" method="post">
       {% csrf_token %}
      {%if form.errors%}
-          <div class="has-error col-auto my-1">
+          <div class="is-invalid col-auto my-1">
             Correct the error(s) Below
             {% if form.non_field_errors %}
               {% for error in form.non_field_errors %}
-                <p class="has-error">{{ error }}</p>
+                <p class="is-invalid">{{ error }}</p>
               {% endfor %}
            {% endif %}
           </div>
@@ -19,7 +22,7 @@
         {{ form.username }}
         {% if form.username.errors %}
           {% for err in form.username.errors %}
-            <div class="invalid-feedback">{{ err }}</div>
+            <div class="is-invalid">{{ err }}</div>
           {% endfor %}
         {% endif %}
       </div>
@@ -28,7 +31,7 @@
         {{ form.password }}
         {% if form.password.errors %}
           {% for err in form.password.errors %}
-            <div class="invalid-feedback">{{ err }}</div>
+            <div class="is-invalid">{{ err }}</div>
           {% endfor %}
         {% endif %}
       </div>
@@ -36,9 +39,9 @@
         <button class="btn">Login</button>
       </div>
         <input type="hidden" name="next" value="{{ next }}">
-      <div class="col-auto d-flex justify-content-between">
-        {#        <p>Forgot Password? click <a href="{%  url 'reset' %}">here</a> to reset your password</p>#}
-        <p class="">Not registered? click <a href="{% url 'signup' %}" class="">here</a> to sign up</p>
+      <div class="col-auto d-flex">
+        <p>Forgot Password? click <a href="{%  url 'user:reset' %}">here</a> to reset your password</p>
+        <p class="ms-auto">Not registered? click <a href="{% url 'user:signup' %}" class="">here</a> to sign up</p>
       </div>
 
     </form>

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django_inlinecss',
     'social_django',
     'rest_framework',
     'news.apps.NewsConfig',
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -169,10 +171,10 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ['rest_framework.authentication.SessionAuthentication'],
     "DEFAULT_PERMISSION_CLASSES": ['rest_framework.permissions.IsAuthenticated']
 }
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'user:login'
+LOGOUT_URL = 'user:logout'
 LOGIN_REDIRECT_URL = 'news:home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'user:login'
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

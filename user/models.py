@@ -9,9 +9,10 @@ class User(AbstractUser):
     email = models.EmailField(null=True, unique=True)
     created = models.DateTimeField(default=timezone.now)
     about = models.TextField(blank=True)
+    verified = models.BooleanField(null=True, default=False)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('-created', 'username')
 
     def __str__(self):
         return f"{self.username}"

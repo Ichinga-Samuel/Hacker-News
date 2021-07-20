@@ -1,0 +1,34 @@
+{% load inlinecss %}
+{% load static %}
+{% inlinecss "css/email.css" %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackers Digest</title>
+  </head>
+  <body>
+    <table class="">
+      <thead>
+        <tr class="head">
+          <th class="hed"><h1 class="">Hackers Digest</h1></th>
+      </tr>
+      </thead>
+      <tbody>
+        {% block body %}
+        {% endblock body %}
+      </tbody>
+      <tfoot>
+        {% block foot %}
+        {% endblock %}
+        <tr class="">
+          <td>
+            <footer class="">
+              <p class="">&copy; Hackers Digest</p>
+            </footer>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>
+{% endinlinecss %}

@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
-
+{% block navbar %}
+{% include 'banner.html' %}
+{% endblock navbar %}
 {% block content %}
   <main class="container my-4 mx-auto">
-    <form action="{% url 'signup' %}" class="col-sm-auto col-md-5 mt-2 mx-auto" method="post">
+    <form action="{% url 'user:signup' %}" class="col-sm-auto col-md-5 mt-2 mx-auto" method="post">
       {% csrf_token %}
         {%if form.errors%}
-          <div class="has-error col-auto my-1">
+          <div class="is-invalid col-auto my-1">
             Correct the error(s) Below
             {% if form.non_field_errors %}
               {% for error in form.non_field_errors %}
-                <p class="has-error">{{ error }}</p>
+                <p class="is-invalid">{{ error }}</p>
               {% endfor %}
            {% endif %}
           </div>
@@ -19,7 +21,7 @@
         {{ form.username }}
         {% if form.username.errors %}
           {% for err in form.username.errors %}
-            <div class="invalid-feedback">{{ err }}</div>
+            <div class="is-invalid">{{ err }}</div>
           {% endfor %}
         {% endif %}
       </div>
@@ -28,7 +30,7 @@
         {{ form.email }}
         {% if form.email.errors %}
           {% for err in form.email.errors %}
-            <div class="has-error">{{ err | escape }}</div>
+            <div class="is-invalid">{{ err | escape }}</div>
           {% endfor %}
         {% endif %}
       </div>
@@ -37,7 +39,7 @@
         {{ form.password1 }}
         {% if form.password1.errors %}
           {% for err in form.password1.errors %}
-            <div class="invalid-feedback">{{ err }}</div>
+            <div class="is-invalid">{{ err }}</div>
           {% endfor %}
         {% endif %}
       </div>
@@ -47,12 +49,12 @@
         <p class="form-text">{{ form.password2.help_text }}</p>
         {% if form.password2.errors %}
           {% for err in form.password2.errors %}
-            <div class="has-validation">{{ err }}</div>
+            <div class="is-invalid">{{ err }}</div>
           {% endfor %}
         {% endif %}
       </div>
       <div class="col-auto"><button class="btn">Sign Up</button>
-        <p class="text-center">Already registered? login <a href="{% url 'login' %}" class="">here</a></p>
+        <p class="text-center">Already registered? login <a href="{% url 'user:login' %}" class="">here</a></p>
       </div>
     </form>
   </main>
