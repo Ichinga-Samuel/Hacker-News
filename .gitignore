@@ -9,6 +9,5 @@ media/
 **/static/
 **/media/
 *.sqlite3
-*.yaml
 .gcloudignore
 *.env
