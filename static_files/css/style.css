@@ -52,14 +52,20 @@ button, .btn, .not{
     background-color: #183a1d;
     color: #f6c453;
     border-radius: 5%;
-	padding: 5px 10px;
+	padding: 5px 7px;
 }
+
+button > a{
+    color: #f6c453;
+    text-decoration-line: none;
+}
+
 
 .br{
     color: #f6c453;
 }
 
-.not a{
+.not{
     color: #f6c453;
 }
 

@@ -16,7 +16,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stories'] = Story.objects.exclude(title__iregex=r'^(Ask HN|Show HN)').order_by('-score', '-time')[:5]
+        context['stories'] = Story.objects.exclude(title__iregex=r'^(Ask HN|Show HN)').order_by('-time', '-score')[:5]
         context['jobs'] = Job.objects.all().order_by('-time')[:10]
         context['asks'] = Story.objects.filter(title__icontains='Ask HN').order_by('-time', '-score')[:5]
         context['shows'] = Story.objects.filter(title__icontains='Show HN').order_by('-time', '-score')[:5]
@@ -26,17 +26,17 @@ class HomeView(TemplateView):
 class StoryListView(ListView):
     template_name = 'news/stories.html'
     context_object_name = 'stories'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
-        stories = Story.objects.exclude(title__iregex=r'^(Ask HN|Show HN)').order_by('-score', '-time')
+        stories = Story.objects.exclude(title__iregex=r'^(Ask HN|Show HN)').order_by('-time', '-score', )
         return stories
 
 
 class AskStoryListView(ListView):
     template_name = 'news/ask_stories.html'
     context_object_name = 'stories'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         stories = Story.objects.filter(title__icontains='Ask HN').order_by('-time', '-score')
@@ -46,7 +46,7 @@ class AskStoryListView(ListView):
 class ShowStoryListView(ListView):
     template_name = 'news/show_stories.html'
     context_object_name = 'stories'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         stories = Story.objects.filter(title__icontains='Show HN').order_by('-time', '-score')

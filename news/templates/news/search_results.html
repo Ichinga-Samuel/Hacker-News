@@ -8,20 +8,20 @@
       <p class="container mt-3 h5 fst-italic shell">No Result Matching Your Query:{{ query }}</p>
     {% endif %}
   {% if not null %}
-    <main class="container-fluid mt-5">
+    <main class="container-fluid mt-5 mb-3">
     {% if stories %}
       <section class="container mt-4">
       <h5 class="br col-auto">Search Results</h5>
       {% for story in stories %}
-        <div class="col-auto">
+        <div class="col-auto mt-3">
           {% include 'search.html' with res=story %}
         </div>
       {% endfor %}
     </section>
     {% endif %}
     {% if asks  %}
-      <section class="container">
-      <h6 class="">Ask Stories Results</h6>
+      <section class="container mt-4">
+      <h6 class="br col-auto">Ask Stories Results</h6>
       {% for story in asks %}
         <div class="col">
           {% include 'search.html' with res=story %}
@@ -31,7 +31,7 @@
     {% endif %}
     {% if shows %}
       <section class="container">
-      <h6 class="">Show Stories Results</h6>
+      <h6 class="br col-auto">Show Stories Results</h6>
       {% for story in shows %}
         <div class="col-auto">
           {% include 'search.html' with res=story %}
@@ -40,8 +40,8 @@
     </section>
     {% endif %}
     {% if jobs %}
-      <section class="container">
-      <h6 class="">Job Results</h6>
+      <section class="container mt-4">
+      <h6 class="br col-auto">Job Results</h6>
       {% for story in jobs %}
         <div class="col-auto">
           {% include 'search.html' with res=story %}
