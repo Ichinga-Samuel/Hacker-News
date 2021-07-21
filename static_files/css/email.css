@@ -7,7 +7,7 @@ html, body{
     /*overflow-x: hidden;*/
 }
 body{
-  background-color: #e1eedd;
+  background-color: white;
   margin: 0;
   padding: 0;
 }
@@ -29,12 +29,18 @@ tfoot p{
 button, .btn, .not{
     background-color: #183a1d;
     color: #f6c453;
-    border-radius: 10%;
+    border-radius: 5%;
+	padding: 5px 10px;
+}
+
+button > a{
+    color: #f6c453 ;
+    text-decoration-line: none;
 }
 
 table{
-    width: 100vw;
-    height: 100vh;
+    margin: auto;
+    padding: 0;
 }
 
 thead tr th h1{
@@ -47,12 +53,10 @@ td{
     padding-left: 1vw;
 }
 
-tbody tr td div{
-    margin: auto;
-    text-align: center;
+tbody td{
+    padding: 0 25vw;
 }
 
-td, td, tr{
-    padding: 3px;
+tbody td{
+    padding: 0 10px;
 }
-

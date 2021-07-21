@@ -51,6 +51,8 @@ header{
 button, .btn, .not{
     background-color: #183a1d;
     color: #f6c453;
+    border-radius: 5%;
+	padding: 5px 10px;
 }
 
 .br{

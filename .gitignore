@@ -2,12 +2,13 @@
 .idea/
 config/
 static/
-static_root/
+static_files/
 media/
 **/migrations/
 **/__pycache__/
 **/static/
 **/media/
 *.sqlite3
+*.yaml
 .gcloudignore
 *.env
