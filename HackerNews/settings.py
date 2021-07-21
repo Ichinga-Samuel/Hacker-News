@@ -28,7 +28,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -92,7 +92,7 @@ GS_QUERYSTRING_AUTH = env('GS_QUERYSTRING_AUTH')
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     BASE_DIR / 'config/hackers-digest-319922-4a2bbf6e36c3.json'
 )
-LOCAL_CLOUD = True
+LOCAL_CLOUD = False
 
 if LOCAL_CLOUD or not DEBUG:
     STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
