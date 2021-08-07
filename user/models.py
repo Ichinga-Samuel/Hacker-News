@@ -1,11 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+import random
+
+
+def uid():
+    return random.randint(9999999, 10000000000)
 
 
 class User(AbstractUser):
     username = models.CharField(max_length=256, unique=True)
-    id = models.BigAutoField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True, default=uid)
     email = models.EmailField(null=True, unique=True)
     created = models.DateTimeField(default=timezone.now)
     about = models.TextField(blank=True)

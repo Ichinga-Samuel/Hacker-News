@@ -14,7 +14,7 @@ html, body{
 body{
   display: flex;
   flex-direction: column;
-  background-color: #e1eedd !important;
+  /*background-color: #e1eedd !important;*/
 }
 
 .shell{
@@ -30,12 +30,12 @@ footer{
     color: #f6c453;
 }
 
-header{
-  background-color: #943d24 !important;
-}
+/*header{*/
+/*  background-color: #943d24 !important;*/
+/*}*/
 
 .hed{
-    background-color: #943d24 !important;
+    background-color: blueviolet !important;
     color: #f6c453;
 }
 
@@ -43,7 +43,10 @@ header{
   color: #f6c453;
   font-size: larger;
 }
-
+div.card a{
+    color: blueviolet !important;
+    text-decoration-line: none;
+}
 .test{
     color: blueviolet !important;
 }

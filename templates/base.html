@@ -51,19 +51,16 @@
   })
 </script>
   <div class="shell">
-    <header class="row container-fluid p-0 mx-0 mb-3">
+    <header class="container-fluid mb-3 p-0">
       {% block navbar %}
-        <nav class="navbar navbar-expand-md">
-          <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg px-5">
+          <div class="container-fluid mx-auto px-3">
             <a href="{% url 'news:home' %}" class="navbar-brand">Hackers Digest</a>
             <button class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#nav-contents">
               <span class="navbar-toggler-icon bg-body"></span>
             </button>
             <div class="collapse navbar-collapse" id="nav-contents">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a href="{% url 'news:home' %}" class="nav-link">Home</a>
-                </li>
                 <li class="nav-item">
                   <a href="{% url 'news:stories' %}" class="nav-link">Top Stories</a>
                 </li>
@@ -126,7 +123,7 @@
       {% endblock %}
     </header>
     {% if messages %}
-      <div class="container mx-auto col-md-8 col-sm-auto mt-5">
+      <div class="container mx-auto col-md-8 col-sm-auto my-5">
         {% for msg in messages %}
           <div class="alert alert-dismissible fade show alert-{{ msg.level_tag }} text-center">
             {{ msg|title }}

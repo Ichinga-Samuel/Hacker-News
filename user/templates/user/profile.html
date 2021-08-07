@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="container p-0">
+<main class="container p-0 col-md-7 mx-auto">
   <section class="container hed pt-5 ">
-    <div class="col-6 mx-auto pc"><p class="pi col-12 m-auto text-uppercase text-center" id="usn">{{ user.username|slice:2}}</p></div>
-    <div class="row col">
-      <div class="row col-auto ">
-        <div class="col-auto not py-1"><p class="m-auto text-center">Stories <span class="badge rounded-pill bg-dark">{{ user.stories.all|length }}</span></p></div>
-        <div class="col-auto not mx-3 py-1"><p class="m-auto">Jobs <span class="badge rounded-pill bg-dark">{{ user.jobs.all|length}}</span></p></div>
-        <div class="col-auto not py-1"><p class="m-auto ">Comments <span class="badge rounded-pill bg-dark">{{ user.comments.all|length }}</span></p></div>
+    <div class="col-6 mx-auto pc mb-2"><p class="pi col-12 m-auto text-uppercase text-center" id="usn">{{ user.username|slice:2}}</p></div>
+    <div class="row flex-wrap">
+      <div class="col-sm-auto d-flex flex-wrap align-items-start p-0 m-0">
+        <span class="d-block not ">Stories<span class="badge rounded-pill bg-dark">{{ user.stories.all|length }}</span></span>
+        <span class="d-block not mx-2">Jobs <span class="badge rounded-pill bg-dark">{{ user.jobs.all|length}}</span></span>
+        <span class="d-block not">Comments <span class="badge rounded-pill bg-dark">{{ user.comments.all|length }}</span></span>
       </div>
-      <button class="btn ms-auto col-auto " data-bs-target="#edit" data-bs-toggle="modal"><span class="material-icons align-top">edit</span> Edit Profile</button>
+      <button class="btn ms-auto d-block col-auto" data-bs-target="#edit" data-bs-toggle="modal"><span class="material-icons align-top">edit</span> Edit Profile</button>
     </div>
   </section>
   <section class="container mt-5 p-0">

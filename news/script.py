@@ -11,13 +11,14 @@ from polls.models import Poll, PollOptions, PollComments
 
 User = get_user_model()
 try:
-    anon = User.objects.get(username='anon')  # anonymous user for items without a specified user
+    anon = User.objects.get(username='anons')  # anonymous user for items without a specified user
 except User.DoesNotExist:
     max_id = User.objects.aggregate(Max('id'))['id__max']
+    max_id += 1
     u = User(username='anons', about='I am anonymous', id=max_id)
     u.set_password('123456anon')
     u.save()
-    anon = User.objects.get(username='anon')
+    anon = User.objects.get(username='anons')
 
 
 class NewsApi:
@@ -63,6 +64,7 @@ class NewsApi:
                     if story and story.get('type') == 'story':
                         self.set_story(story, with_comments=with_comments)
             except Exception as err:
+                print(err)
                 traceback.print_exc()
                 total -= 1
                 completed += 1
@@ -93,6 +95,7 @@ class NewsApi:
             del story['id']
             obj.save()
             if comments and obj and with_comments: self.set_story_comments(comments, obj)
+            return obj
         except Exception as err:
             traceback.print_exc()
 
@@ -107,6 +110,7 @@ class NewsApi:
             resp = res.json() if res.status_code == 200 else []
         except Exception as err:
             resp = []
+        print(f'Adding {len(resp)} Jobs')
         for item in resp:
             try:
                 if not self.check_item(item, Job):
@@ -135,6 +139,7 @@ class NewsApi:
             obj.save()
             if comments and with_comments and obj:
                 self.set_job_comments(comments, obj)
+            return obj
         except Exception as err:
             traceback.print_exc()
 
@@ -174,6 +179,8 @@ class NewsApi:
 
         if options and obj:
             self.set_poll_options(options, obj)
+
+        return obj
 
     def set_poll_comments(self, comments, poll):
         for comment in comments:
@@ -250,13 +257,13 @@ class NewsApi:
         check if an item is already in the database
         :param model: The model to check with
         :param item_id: The primary key of the item
-        :return: True if exists
+        :return: True,if it exists or False
         """
         try:
             item = model.objects.get(id=item_id)
-            return True if item else False
+            return (True, item) if item else (False, None)
         except Exception as err:
-            return False
+            return False, None
 
     def set_user(self, name):
         try:
@@ -270,24 +277,28 @@ class NewsApi:
                 if user:
                     user['username'] = user['id']
                     del user['id']
-                    user['id'] = user['karma']
-                    del user['karma']
                     if 'created' in user:
                         user['created'] = make_aware(dt.fromtimestamp(user['created']))
+
+                    if 'karma' in user:
+                        del user['karma']
                     user = User(**user)
                     user.set_password('12345FooBar')
                     user.save()
                     return user if user else anon
                 else: return anon
             except Exception as err:
-                traceback.print_exc()
+                print(err)
+                # traceback.print_exc()
                 return anon
 
     def get_latest(self, with_comments=False):
         s = Story.objects.aggregate(Max('id'))['id__max']
         j = Job.objects.aggregate(Max('id'))['id__max']
         p = Poll.objects.aggregate(Max('id'))['id__max']
-        c_max = max(i for i in (s, j, p) if i is not None)
+        sc = StoryComments.objects.aggregate(Max('id'))['id__max']
+        pc = PollComments.objects.aggregate(Max('id'))['id__max']
+        c_max = max(i for i in (s, j, p, sc, pc) if i is not None)
         try:
             res = requests.get("https://hacker-news.firebaseio.com/v0/maxitem.json")
             max_id = res.json() if res.status_code == 200 else None
@@ -305,49 +316,67 @@ class NewsApi:
         print('Complete')
 
     def check_id(self, id_):
-        models = (Story, Job, StoryComments, JobComments, PollOptions, Poll, PollComments)
+        """
+        Check if Item is already existing in the database
+        :param id_:
+        :return:
+        """
+        models = (Story, Job, StoryComments, PollOptions, Poll, PollComments)
         for model in models:
-            if self.check_item(id_, model):
-                return True
+            res = self.check_item(id_, model)
+            if res[0]:
+                return True, model, res[1]
         else:
-            return False
+            return False, None, None
 
     def set_item(self, id_, with_comments=False):
-        if self.check_id(id_):
-            return
+        if self.check_id(id_)[0]:
+            return                          # exit if item is already existing
         item = self.get_item(id_)
         if item and ((type_ := item.get('type')) is not None):
             if type_ == 'story':
-                self.set_story(item, with_comments=with_comments)
-                return
+                return self.set_story(item, with_comments=with_comments)
             if type_ == 'job':
-                self.set_job(item, with_comments=with_comments)
-                return
+                return self.set_job(item, with_comments=with_comments)
             if type_ == 'poll':
-                self.set_poll(item, with_comments=with_comments)
-                return
+                return self.set_poll(item, with_comments=with_comments)
+            if type_ == 'comment':
+                return self.set_comment(id_, item)
         return
 
-    # def set_comment(self, item):
-    #     parent = item.get('parent')
-    #     if not parent: return
-    #     parent = self.get_parent(item)
-    #     del item['type']
-    #     by = self.set_user(item['by']) if item.get('by') else anon
-    #     comments = ()
-    #     if 'kids' in item:
-    #         comments = item['kids']
-    #         del item['kids']
-    #     if 'time' in item:
-    #         item['time'] = make_aware(item['time'])
-    #
-    #     if isinstance(parent, Story):
-    #         obj = StoryComments(**item)
-    #         obj.story = parent
-    #         obj.save()
-    #     if isinstance(parent, StoryComments):
-    #         obj = StoryComments(**item)
-    #
-    #     models = (Story, StoryComments, PollComments, Poll, JobComments, Job)
+    def get_parent(self, id_):
+        """
+        get the parent of a comment or reply
+        :param id_:
+        :return:
+        """
+        res = self.check_id(id_)
+        if res[0]:
+            return res[2]
+        else:
+            return None
 
+    def set_comment(self, id_, item):
+        print('check')
+        pid = item.get('parent')
+        if pid is None:
+            return
+        parent = self.get_parent(pid)               # get the parent from the database
+        if parent is None:                          # if the item has no parent set the parent
+            self.set_item(pid, with_comments=True)
+            return
+
+        if isinstance(parent, Story):
+            self.create_comment(id_, StoryComments, post=parent)
+
+        if isinstance(parent, StoryComments):
+            self.create_comment(id_, StoryComments, parent=parent)
+
+        if isinstance(parent, PollComments):
+            self.create_comment(id_, PollComments, parent=parent)
+
+        if isinstance(parent, Poll):
+            self.create_comment(id_, PollComments, post=parent)
+
+        print('check complete')
 

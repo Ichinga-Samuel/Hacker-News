@@ -21,18 +21,18 @@
     <div class="container mt-3 p-0">
       <hr class="p-0">
       <div class="row m-auto">
-        <button class="col-auto rounded-3 me-2" data-bs-toggle="collapse" data-bs-target="#comments"><span class="col-auto">{{ story.reviews }} Comments</span></button>
-        <span class="not col-auto rounded-3 ms-2"><span class="not align-text-top">Score {{ story.score }}</span>
-          <span class="align-text-top">
-            <a href="" class="align-text-top"><span class="material-icons not">arrow_upward</span></a>
-            <a href="" class="align-text-top"><span class="material-icons not">arrow_downward</span></a>
-          </span>
+        <button class="col-auto rounded-3 d-block" data-bs-toggle="collapse" data-bs-target="#comments"><span class="badge bg-dark">{{ story.reviews }}</span> Comments</button>
+        <span class="not d-block col-auto rounded-3 mx-2">
+          <span class="align-top">Score <span class=" badge bg-dark">{{ story.score }}</span></span>
+          <span  class="align-center"><a href="" class="material-icons not text-decoration-none">arrow_upward</a></span>
+          <span class="align-center"><a href="" class="material-icons not text-decoration-none">arrow_downward</a></span>
         </span>
+
         {% if request.user.is_authenticated %}
-          <button class="ms-1 col-auto" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
-        {% else %}
-          <button class="ms-3 col-auto"><a href="{% url 'user:login' %}" class="">Login</a></button>
-        {% endif %}
+         <button class=" col-auto d-block" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
+          {% else %}
+            <button class=" col-auto d-block"><a href="{% url 'user:login' %}" class="">Login to Comment</a></button>
+          {% endif %}
     </div>
       <hr class="p-0">
     </div>

@@ -7,12 +7,11 @@
       <p class="card-text">{{ job.text|striptags|truncatewords:5  }}...</p>
     {% endif %}
   </div>
-  <div class="card-footer p-2 mx-0 hed">
-    <div class="row m-auto">
-      <div class="col-auto align-top">{{ job.by|upper }}</div>
-      <div class="col-auto align-top">{{ story.time|date }}</div>
-      <a href="{{ job.get_absolute_url }}" class="col-auto ms-auto align-top btn py-0">Read More</a>
+  <div class="card-footer">
+    <div class="d-flex p-0 flex-wrap justify-content-between">
+      <span>{{ job.by|upper }}</span>
+      <span>{{ story.time|date }}</span>
+      <a href="{{ job.get_absolute_url }}" class="ms-auto">Read More</a>
     </div>
-
   </div>
 </div>
