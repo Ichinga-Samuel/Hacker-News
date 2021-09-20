@@ -1,16 +1,23 @@
+import asyncio
+import concurrent.futures
 from django.core.management.base import BaseCommand, CommandError
-from news.script import NewsApi
+from news.async_script import get_latest_jobs
+
+
+def main():
+
+    asyncio.run(get_latest_jobs())
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('--comments', action='store_true', help='recursively load comments')
+        pass
 
     def handle(self, *args, **options):
         try:
-            api = NewsApi()
-            value = options['comments']
-            api.get_latest_jobs(with_comments=value)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+                executor.submit(main)
         except Exception as err:
+            executor.shutdown(wait=False, cancel_futures=True)
             print(err)
-            self.stderr.write('error')
+            self.stderr.write()

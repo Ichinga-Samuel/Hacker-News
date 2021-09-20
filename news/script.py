@@ -6,19 +6,17 @@ from django.db.models import Max
 from django.utils.timezone import make_aware
 
 from news.models import StoryComments, Story
-from jobs.models import JobComments, Job
+from jobs.models import Job
 from polls.models import Poll, PollOptions, PollComments
 
 User = get_user_model()
 try:
-    anon = User.objects.get(username='anons')  # anonymous user for items without a specified user
+    anon = User.objects.get(username='anon')  # anonymous user for items without a specified user
 except User.DoesNotExist:
-    max_id = User.objects.aggregate(Max('id'))['id__max']
-    max_id += 1
-    u = User(username='anons', about='I am anonymous', id=max_id)
+    u = User(username='anon', about='I am anonymous')
     u.set_password('123456anon')
     u.save()
-    anon = User.objects.get(username='anons')
+    anon = User.objects.get(username='anon')
 
 
 class NewsApi:
@@ -40,6 +38,7 @@ class NewsApi:
                 return res
             else: return None
         except Exception as err:
+            print(err)
             traceback.print_exc()
             return None
 
@@ -59,8 +58,9 @@ class NewsApi:
         completed = 0
         for item in resp:
             try:
-                if not self.check_item(item, Story):
+                if not self.check_item(item, Story)[0]:
                     story = self.get_item(item)
+                    print(story)
                     if story and story.get('type') == 'story':
                         self.set_story(story, with_comments=with_comments)
             except Exception as err:
@@ -113,7 +113,7 @@ class NewsApi:
         print(f'Adding {len(resp)} Jobs')
         for item in resp:
             try:
-                if not self.check_item(item, Job):
+                if not self.check_item(item, Job)[0]:
                     job = self.get_item(item)
                     if job and job.get('type') == 'job':
                         self.set_job(job, with_comments=with_comments)
@@ -261,6 +261,7 @@ class NewsApi:
         """
         try:
             item = model.objects.get(id=item_id)
+            print(item)
             return (True, item) if item else (False, None)
         except Exception as err:
             return False, None
@@ -298,11 +299,13 @@ class NewsApi:
         p = Poll.objects.aggregate(Max('id'))['id__max']
         sc = StoryComments.objects.aggregate(Max('id'))['id__max']
         pc = PollComments.objects.aggregate(Max('id'))['id__max']
-        c_max = max(i for i in (s, j, p, sc, pc) if i is not None)
+        maxs = (s, j, p, sc, pc, 1)
+        c_max = max(i for i in maxs if i is not None)
         try:
+
             res = requests.get("https://hacker-news.firebaseio.com/v0/maxitem.json")
             max_id = res.json() if res.status_code == 200 else None
-        except:
+        except Exception as err:
             max_id = None
 
         if max_id:
@@ -313,6 +316,36 @@ class NewsApi:
                 except Exception as err:
                     traceback.print_exc()
                     continue
+        print('Complete')
+
+    def get_nth_latest(self, n=100, with_comments=True):
+        s = Story.objects.aggregate(Max('id'))['id__max']
+        j = Job.objects.aggregate(Max('id'))['id__max']
+        p = Poll.objects.aggregate(Max('id'))['id__max']
+        sc = StoryComments.objects.aggregate(Max('id'))['id__max']
+        pc = PollComments.objects.aggregate(Max('id'))['id__max']
+        maxs = (s, j, p, sc, pc, 1)
+        c_max = max(i for i in maxs if i is not None)
+        try:
+            res = requests.get("https://hacker-news.firebaseio.com/v0/maxitem.json")
+            max_id = res.json() if res.status_code == 200 else None
+        except Exception as err:
+            max_id = None
+
+        if max_id:
+            print(f'uploading {n} items')
+            total = 0
+            for i in reversed(range(c_max + 1, max_id + 1)):
+                if total == n:
+                    break
+                try:
+                    self.set_item(i, with_comments=with_comments)
+                    total += 1
+                except Exception as err:
+                    traceback.print_exc()
+                    continue
+
+
         print('Complete')
 
     def check_id(self, id_):

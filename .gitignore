@@ -1,8 +1,6 @@
-.git/
 .idea/
 config/
 static/
-static_files/
 media/
 **/migrations/
 **/__pycache__/

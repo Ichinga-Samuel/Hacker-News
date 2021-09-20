@@ -51,6 +51,7 @@ class UserCreationView(FormView):
 class UserView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'user/profile.html'
+    login_url = 'user:login'
 
     def test_func(self):
         return self.request.user.id == self.kwargs['pk']
@@ -59,7 +60,7 @@ class UserView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         pk = self.kwargs['pk']
         data = json.loads(request.body)
         try:
-            u = User.objects.filter(id=pk).update(**data)
+            u = User.objects.get(id=pk).update(**data)
             messages.add_message(request, messages.INFO, 'Profile Update Successful')
             return JsonResponse({'ok': True})
         except Exception as err:

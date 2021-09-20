@@ -18,12 +18,23 @@
   <script class="">
   document.addEventListener('readystatechange', e => {
       if (e.target.readyState === "complete") {
+          let ele = document.getElementById('url')
+          if(ele){
+              let url = ele.getAttribute('data-url')
+              ele.setAttribute('src', url)
+          }
           let elems = document.getElementsByClassName('add_comment')
           for(let el of elems){
+            let comment = el.getAttribute('data-cid')
+            let story = el.getAttribute('data-sid')
+            let preEle = el.previousElementSibling
+            preEle.addEventListener('click', async e =>{
+                let text = comment ? document.getElementById(`t${comment}`): document.getElementById(`t${story}`)
+                text.value = ""
+            })
             el.addEventListener('click', async e => {
-              let url = el.getAttribute('url')
+              let url = el.getAttribute('data-url')
               let data = {}
-              let comment = el.getAttribute('cid')
               let t;
               if(comment){
                   t = document.getElementById(`t${comment}`)
@@ -31,7 +42,6 @@
                   data['comment_id'] = comment
                   data['text'] = text
               }
-              let story = el.getAttribute('sid')
               if(story){
                   t = document.getElementById(`t${story}`)
                   let text = t.value
@@ -51,11 +61,18 @@
   })
 </script>
   <div class="shell">
-    <header class="container-fluid mb-3 p-0">
+    <header class="container-fluid mb-3">
+      <div class="col-auto position-relative mb-2">
+        <h6 class="ms-3">
+          {% now "D d M Y"  %}
+        </h6>
+        <h1 class="position-absolute top-0 start-50 translate-middle-x">
+          <a href="{% url 'news:home' %}" class="navbar-brand">Hackers Digest</a>
+        </h1>
+      </div>
       {% block navbar %}
-        <nav class="navbar navbar-expand-lg px-5">
-          <div class="container-fluid mx-auto px-3">
-            <a href="{% url 'news:home' %}" class="navbar-brand">Hackers Digest</a>
+        <nav class="navbar navbar-expand-lg mx-auto">
+          <div class="px-3 col">
             <button class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#nav-contents">
               <span class="navbar-toggler-icon bg-body"></span>
             </button>
@@ -74,16 +91,17 @@
                   <a href="{% url 'jobs:jobs' %}" class="nav-link">Jobs</a>
                 </li>
               </ul>
-              <div class="navbar-nav ">
-                  <div class="nav-item dropdown">
+              <div class="navbar-nav">
+                  <div class="nav-item align-text-bottom"><span class="material-icons nav-link" data-bs-target="#search" data-bs-toggle="collapse">search</span></div>
+                  <div class="nav-item dropdown align-text-bottom">
                     {% if request.user.is_authenticated %}
                       <a href="" class="nav-link dropdown-toggle text-uppercase"  data-bs-toggle="dropdown">{{ user.username }}</a>
                       {% else %}
-                        <a href="" class="nav-link dropdown-toggle"  data-bs-toggle="dropdown">Sign In</a>
+                        <a href="" class="nav-link dropdown-toggle"  data-bs-toggle="dropdown">Login</a>
                     {% endif %}
                     <ul class="dropdown-menu">
                       {% if not request.user.is_authenticated %}
-                        <li class=""><a href="{% url 'user:signup' %}" class="dropdown-item">Signup</a></li>
+                        <li><a href="{% url 'user:signup' %}" class="dropdown-item">Signup</a></li>
                         <li><a href="{% url 'user:login' %}" class="dropdown-item">Login</a></li>
                         {% else %}
                           <li><a href="{% url 'user:logout' %}" class="dropdown-item">Logout</a></li>
@@ -91,7 +109,6 @@
                       {% endif %}
                     </ul>
                   </div>
-                  <div class="nav-item"><span class="material-icons nav-link" data-bs-target="#search" data-bs-toggle="collapse">search</span></div>
               </div>
             </div>
           </div>
@@ -163,8 +180,8 @@
           </div>
         {% endif %}
       {% endblock paginate %}
-    <footer class="row mx-0 p-3" >
-      <p class="col-12 m-auto text-center">&copy;Hackers Digest</p>
+    <footer class="" >
+      <p class="m-auto text-center">&copy;Hackers Digest</p>
     </footer>
   </div>
 </body>

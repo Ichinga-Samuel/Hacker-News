@@ -1,5 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
-from news.script import NewsApi
+import concurrent.futures
+import asyncio
+from news.async_script import get_latest_stories
+
+
+def main(value):
+    asyncio.run(get_latest_stories("https://hacker-news.firebaseio.com/v0/topstories.json", with_comments=value))
 
 
 class Command(BaseCommand):
@@ -8,9 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            api = NewsApi()
             value = options['comments']
-            api.get_latest_stories('https://hacker-news.firebaseio.com/v0/topstories.json', with_comments=value)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+                executor.map(main, [value])
         except Exception as err:
             print(err)
             self.stderr.write('error')

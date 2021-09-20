@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block navbar %}
-{% include 'banner.html' %}
 {% endblock navbar %}
 {% block content %}
   <main class="container my-4 mx-auto">
-    <form action="{% url 'user:signup' %}" class="col-sm-auto col-md-5 mt-2 mx-auto" method="post">
+    <form action="{% url 'user:signup' %}" class="col-md-5 mx-auto" method="post">
       {% csrf_token %}
         {%if form.errors%}
           <div class="is-invalid col-auto my-1">

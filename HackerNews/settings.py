@@ -28,7 +28,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -90,9 +90,9 @@ GS_PROJECT_ID = env('GS_PROJECT_ID')
 GS_QUERYSTRING_AUTH = env('GS_QUERYSTRING_AUTH')
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    BASE_DIR / 'config/hackers-digest-319922-4a2bbf6e36c3.json'
+    BASE_DIR / 'config/hackers-digest-324712-555e2aa0bc63.json'
 )
-LOCAL_CLOUD = True
+LOCAL_CLOUD = False
 
 if LOCAL_CLOUD or not DEBUG:
     STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
@@ -120,6 +120,8 @@ elif LOCAL_CLOUD:
             'PASSWORD': env('DEV_PASSWORD'),
             'HOST': '127.0.0.1',
             'PORT': '3306',
+            'CONN_MAX_AGE': 300,
+            'URL': f"postgresql+psycopg2://{env('DEV_USER')}:{env('DEV_PASSWORD')}@127.0.0.1:3306/{env('DEV_NAME')}"
         }
     }
 else:
@@ -127,8 +129,10 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'URL': f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
         }
     }
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -171,6 +175,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ['rest_framework.authentication.SessionAuthentication'],
     "DEFAULT_PERMISSION_CLASSES": ['rest_framework.permissions.IsAuthenticated']
 }
+
 LOGIN_URL = 'user:login'
 LOGOUT_URL = 'user:logout'
 LOGIN_REDIRECT_URL = 'news:home'

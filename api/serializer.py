@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework import permissions
 
 from news.models import Story, StoryComments
-from jobs.models import Job, JobComments
+from jobs.models import Job
 
 
 class StorySerializer(serializers.ModelSerializer):

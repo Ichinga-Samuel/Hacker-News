@@ -14,9 +14,10 @@ html, body{
 body{
   display: flex;
   flex-direction: column;
-  /*background-color: #e1eedd !important;*/
+  /*background-image: linear-gradient(to right, #ECEFF1, #CFD8DC, #B0BEC5, #90A4AE, #78909C, #607D8B);*/
+  background-image: linear-gradient(to right, #212121, #212121);
+  color: #ffffff;
 }
-
 .shell{
     flex: 1 0 auto !important;
 }
@@ -25,24 +26,32 @@ body{
     flex-shrink: 0;!important;
 }
 
-footer{
-    background-color: #183a1d;
+.primary{
     color: #f6c453;
 }
-
+.sec{
+    background-color: #121212;
+}
+.stories{
+    background-color: #505050;
+}
 /*header{*/
 /*  background-color: #943d24 !important;*/
 /*}*/
 
 .hed{
-    background-color: blueviolet !important;
-    color: #f6c453;
+    background-color: #121212;
+    color:blueviolet
 }
 
 .nav-link, .navbar-brand{
-  color: #f6c453;
+  color: #ffffff;
   font-size: larger;
 }
+a{
+    color: blueviolet
+}
+
 div.card a{
     color: blueviolet !important;
     text-decoration-line: none;
@@ -51,19 +60,14 @@ div.card a{
     color: blueviolet !important;
 }
 
-button, .btn, .not{
-    background-color: #183a1d;
-    color: #f6c453;
-    border-radius: 5%;
-	padding: 5px 7px;
+.btn{
+    background-color: darkviolet;
+    color: #ffffff;
 }
-
-button > a{
-    color: #f6c453;
-    text-decoration-line: none;
+span.material-icons-outline{
+    color: #ffffff;
+    cursor: pointer;
 }
-
-
 .br{
     color: #f6c453;
 }
@@ -74,7 +78,6 @@ button > a{
 
 .profile{
     background-color: blueviolet;
-    color: #f6c453;
 }
 
 .pc{

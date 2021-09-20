@@ -9,15 +9,15 @@
   {% endautoescape %}
   <div class="col">
     {% if request.user.is_authenticated %}
-      <button class="material-icons align-top" data-bs-target="#m{{ comment.id }}" data-bs-toggle="collapse">reply</button>
+      <span class="material-icons align-top" data-bs-target="#m{{ comment.id }}" data-bs-toggle="collapse">reply</span>
     {% endif %}
     {% if comment.comments.all %}
-      <button class="align-top" data-bs-toggle="collapse" data-bs-target="#comments{{ comment.id }}">Replies</button>
+      <button class="align-top btn" data-bs-toggle="collapse" data-bs-target="#comments{{ comment.id }}">See {{ comment.comments.all| length}} Replies</button>
     {% endif %}
   </div>
-  <div class="collapse" id="m{{ comment.id }}">
+  <div class="collapse mt-2" id="m{{ comment.id }}">
     <textarea name="" id="t{{ comment.id }}" cols="30" rows="4" class="form-control"></textarea>
-    <button class="add_comment my-2" cid="{{ comment.id }}" url="{% url 'news:comment' %}">Post</button>
+    <button class="add_comment my-2 ms-auto btn" data-cid="{{ comment.id }}" url="{% url 'news:comment' %}">Post</button>
   </div>
     <div class="collapse" id="comments{{ comment.id }}">
       {% for comment in comment.comments.all %}

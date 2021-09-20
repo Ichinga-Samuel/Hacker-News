@@ -5,7 +5,7 @@ import random
 
 
 def uid():
-    return random.randint(9999999, 10000000000)
+    return random.randint(0, 10000000000)
 
 
 class User(AbstractUser):

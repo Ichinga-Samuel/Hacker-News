@@ -7,27 +7,13 @@
     <section class="container">
       {% if job.url %}
         <article class="container ratio ratio-1x1">
-          <iframe src="{{ job.url }}" class="" frameborder="0" ></iframe>
+          <iframe src="" title="{{ job.title }}" class="" sandbox style="border: none" id="url" data-url="{{ job.url }}"></iframe>
         </article>
         {% else %}
         {% autoescape off %}
           <h3 class="">{{job.title}}</h3>
           <p class="">{{ job.text }}</p>
         {% endautoescape %}
-      {% endif %}
-    </section>
-    <div class="container mt-3 p-0">
-      <hr class="p-0">
-      <div class="row m-auto">
-        <button class="col-auto me-2 btn" data-bs-target="#comment" data-bs-toggle="collapse">{{ job.comments.all|length }} Comments</button>
-    </div>
-      <hr class="p-0">
-    </div>
-    <section class="container collapse my-2" id="comment">
-      {% if job.comments.all %}
-          {% for comment in job.comments.all %}
-            {% include 'comment.html' with comment=comment %}
-          {% endfor %}
       {% endif %}
     </section>
   </main>

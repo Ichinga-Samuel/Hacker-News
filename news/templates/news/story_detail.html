@@ -6,8 +6,8 @@
   <main class="container-fluid">
     <section class="container">
       {% if story.url %}
-        <article class="container ratio ratio-1x1">
-          <iframe src="{{ story.url }}" class="" frameborder="0" ></iframe>
+        <article class="container ratio ratio-1x1 ">
+          <iframe src="" title="{{ story.title }}" sandbox style="border: none; background-color: white" id="url" data-url="{{ story.url }}"></iframe>
         </article>
         {% else %}
         {% autoescape off %}
@@ -19,29 +19,27 @@
       {% endif %}
     </section>
     <div class="container mt-3 p-0">
-      <hr class="p-0">
-      <div class="row m-auto">
-        <button class="col-auto rounded-3 d-block" data-bs-toggle="collapse" data-bs-target="#comments"><span class="badge bg-dark">{{ story.reviews }}</span> Comments</button>
-        <span class="not d-block col-auto rounded-3 mx-2">
-          <span class="align-top">Score <span class=" badge bg-dark">{{ story.score }}</span></span>
-          <span  class="align-center"><a href="" class="material-icons not text-decoration-none">arrow_upward</a></span>
-          <span class="align-center"><a href="" class="material-icons not text-decoration-none">arrow_downward</a></span>
-        </span>
-
-        {% if request.user.is_authenticated %}
-         <button class=" col-auto d-block" data-bs-target="#comment" data-bs-toggle="collapse">Comment</button>
-          {% else %}
-            <button class=" col-auto d-block"><a href="{% url 'user:login' %}" class="">Login to Comment</a></button>
-          {% endif %}
-    </div>
-      <hr class="p-0">
-    </div>
-    <div class="container collapse my-2" id="comment">
-      <textarea url="" id="t{{ story.id }}" cols="30" rows="4" class="form-control"></textarea>
-      <button class="col-auto add_comment mt-2" url="{% url 'news:comment' %}" sid="{{ story.id }}">Submit</button>
+      <div class="d-flex flex-wrap m-auto">
+        <button class="btn align-self-center me-2" data-bs-target="#comments" data-bs-toggle="collapse">Read {{ story.reviews }} Comments</button>
+        <span class="align-self-center me-2">Score: {{ story.score }}</span>
+        <span data-url="" class="material-icons align-self-center me-2">thumb_up</span>
+        <span data-url="" class="material-icons  align-self-center me-2">thumb_down</span>
+        {% if not request.user.is_authenticated %}
+          <a href="{% url 'user:login' %}" class="align-self-center text-decoration-none" style="">Login to Comment</a>
+        {% endif %}
+      </div>
+      {% if request.user.is_authenticated %}
+        <div class="col my-2" id="comment">
+        <textarea data-url="" id="t{{ story.id }}" cols="10" rows="2" class="form-control" data-bs-target="#ch" data-bs-toggle="collapse" placeholder="Leave a public comment"></textarea>
+        <div class="col mt-2 collapse row row-cols-2" id="ch">
+          <button class="ms-auto btn col-auto" type="reset">Cancel</button>
+          <button type="submit" class="ms-2 add_comment btn col-auto" data-url="{% url 'news:comment' %}" data-sid="{{ story.id }}">Submit</button>
+        </div>
+        </div>
+      {% endif %}
     </div>
     <section class="container collapse" id="comments">
-      {% if story.comments.all %}
+      {% if story.comments.all|length %}
           {% for comment in story.comments.all %}
             {% include 'comment.html' with comment=comment %}
           {% endfor %}

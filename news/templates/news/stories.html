@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  <title>Tech News</title>
+{% endblock %}
+
 {% block content %}
-  <main class="container mt-5">
-     <h2 class="col-auto br">Stories</h2>
-     <div class="row">
+  <main class="container-fluid mt-5">
+     <h2 class="ms-3">Tech News</h2>
+     <div class="row row-cols-auto gap-1 mx-auto">
     {% for story in stories %}
-      <div class="col-md-6 col-sm-12 col-lg-4 my-md-2">
+      <div class="col">
         {% include 'story.html' with story=story %}
       </div>
     {% endfor %}

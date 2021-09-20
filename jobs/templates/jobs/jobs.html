@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  <title>Tech Jobs</title>
+{% endblock %}
 {% block content %}
-  <main class="container mt-5">
-    <h2 class="br">Jobs</h2>
-     <div class="row">
+  <main class="container-fluid mt-5">
+    <h2 class="ms-2">Jobs</h2>
+     <div class="row row-cols-auto gap-1 mx-auto">
     {% for job in jobs %}
-      <div class="col-md-6 col-sm-12 col-lg-4 my-md-2">
+      <div class="col">
         {% include 'job.html' with job=job %}
       </div>
     {% endfor %}

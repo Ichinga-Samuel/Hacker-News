@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-  {% include 'banner.html' %}
 {% endblock navbar %}
 {% block content %}
-  <main class="container">
-    <form action="{% url 'user:login' %}" class="col-sm-auto col-md-5 mx-auto mt-5 p-0" method="post">
+  <main class="container my-5">
+    <form action="{% url 'user:login' %}" class="col-md-6 mx-auto" method="post">
       {% csrf_token %}
      {%if form.errors%}
           <div class="is-invalid col-auto my-1">
@@ -17,7 +16,7 @@
            {% endif %}
           </div>
         {% endif %}
-      <div class="col-auto mb-3">
+      <div class="mb-3">
         <label for="form.username.id_for_label" class="form-label">Username</label>
         {{ form.username }}
         {% if form.username.errors %}
@@ -26,7 +25,7 @@
           {% endfor %}
         {% endif %}
       </div>
-      <div class="col-auto  mb-3">
+      <div class="mb-3">
         <label for="form.password.id_for_label" class="form-label">Password</label>
         {{ form.password }}
         {% if form.password.errors %}
@@ -35,22 +34,14 @@
           {% endfor %}
         {% endif %}
       </div>
-      <div class="col-auto">
-        <button class="btn">Login</button>
-      </div>
+        <button class="btn d-block mb-3 ms-auto">Login</button>
         <input type="hidden" name="next" value="{{ next }}">
-      <div class="col-auto d-flex">
-        <p>Forgot Password? click <a href="{%  url 'user:reset' %}">here</a> to reset your password</p>
-        <p class="ms-auto">Not registered? click <a href="{% url 'user:signup' %}" class="">here</a> to sign up</p>
-      </div>
-
+        <p class="">Forgot Password? click <a href="{%  url 'user:reset' %}">here</a> to reset your password. Not registered? click <a href="{% url 'user:signup' %}" class="">here</a> to sign up</p>
     </form>
-    <div class="row col-sm-auto col-md-4 mx-auto p-0">
-      <hr class="col-5 m-auto"> <p class="p-0 m-0 col-2 m-auto text-center">OR</p> <hr class="col-5 m-auto">
+    <div class="mx-auto position-relative col-md-6 mt-3">
+      <hr class="m-auto" style="height: 10px; background-color: white">
+      <p class="position-absolute top-50 start-50 translate-middle">OR</p>
     </div>
-
-    <div class="col-sm-auto col-md-4 mx-auto mt-3 p-0">
-      <div class="mx-auto col-6 p-0"><button class="btn btn-primary text-center google"><a href="{% url 'social:begin' 'google-oauth2' %}" class="">Login With Google</a></button></div>
-    </div>
+      <button class="d-block btn btn-primary btn-lg mx-auto google mt-3"><a href="{% url 'social:begin' 'google-oauth2' %}" class="">Login With Google</a></button>
   </main>
 {% endblock content %}
