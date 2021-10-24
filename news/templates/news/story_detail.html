@@ -7,7 +7,7 @@
     <section class="container">
       {% if story.url %}
         <article class="container ratio ratio-1x1 ">
-          <iframe src="" title="{{ story.title }}" sandbox style="border: none; background-color: white" id="url" data-url="{{ story.url }}"></iframe>
+          <iframe src="" title="{{ story.title }}" style="border: none; background-color: white" id="url" data-url="{{ story.url }}"></iframe>
         </article>
         {% else %}
         {% autoescape off %}

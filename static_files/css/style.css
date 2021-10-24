@@ -14,9 +14,8 @@ html, body{
 body{
   display: flex;
   flex-direction: column;
-  /*background-image: linear-gradient(to right, #ECEFF1, #CFD8DC, #B0BEC5, #90A4AE, #78909C, #607D8B);*/
-  background-image: linear-gradient(to right, #212121, #212121);
-  color: #ffffff;
+  background-color: black;
+  color: green;
 }
 .shell{
     flex: 1 0 auto !important;
@@ -45,7 +44,7 @@ body{
 }
 
 .nav-link, .navbar-brand{
-  color: #ffffff;
+  color: green;
   font-size: larger;
 }
 a{

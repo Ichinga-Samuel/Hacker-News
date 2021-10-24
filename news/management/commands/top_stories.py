@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             value = options['comments']
-            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
                 executor.map(main, [value])
         except Exception as err:
             print(err)

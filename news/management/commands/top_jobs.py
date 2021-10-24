@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
                 executor.submit(main)
         except Exception as err:
             executor.shutdown(wait=False, cancel_futures=True)

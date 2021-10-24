@@ -120,7 +120,6 @@ elif LOCAL_CLOUD:
             'PASSWORD': env('DEV_PASSWORD'),
             'HOST': '127.0.0.1',
             'PORT': '3306',
-            'CONN_MAX_AGE': 300,
             'URL': f"postgresql+psycopg2://{env('DEV_USER')}:{env('DEV_PASSWORD')}@127.0.0.1:3306/{env('DEV_NAME')}"
         }
     }
