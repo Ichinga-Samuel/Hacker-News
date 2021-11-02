@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 import concurrent.futures
 import asyncio
-from news.async_script import get_latest_stories
+from news.script import get_latest_stories
 
 
 def main(value):

@@ -1,11 +1,11 @@
 import asyncio
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
-from .async_script import get_latest
+from .script import get_latest
 
 
 executors = {
-    'default': ThreadPoolExecutor(20),
+    'default': ThreadPoolExecutor(50),
     'processpool': ProcessPoolExecutor(5)
 }
 

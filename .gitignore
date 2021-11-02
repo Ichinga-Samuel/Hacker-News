@@ -2,11 +2,12 @@
 config/
 static/
 media/
+venv/
 **/migrations/
 **/__pycache__/
 **/static/
 **/media/
 *.sqlite3
-*.yaml
+app.yaml
 .gcloudignore
 *.env

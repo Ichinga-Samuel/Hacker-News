@@ -1,7 +1,7 @@
 import asyncio
 import concurrent.futures
 from django.core.management.base import BaseCommand, CommandError
-from news.async_script import get_latest_jobs
+from news.script import get_latest_jobs
 
 
 def main():
