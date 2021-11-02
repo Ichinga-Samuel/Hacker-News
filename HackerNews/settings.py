@@ -28,7 +28,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -90,7 +90,7 @@ GS_PROJECT_ID = env('GS_PROJECT_ID')
 GS_QUERYSTRING_AUTH = env('GS_QUERYSTRING_AUTH')
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    BASE_DIR / 'config/hackers-digest-324712-555e2aa0bc63.json'
+    BASE_DIR / 'config/credentials.json'
 )
 LOCAL_CLOUD = False
 
@@ -120,7 +120,6 @@ elif LOCAL_CLOUD:
             'PASSWORD': env('DEV_PASSWORD'),
             'HOST': '127.0.0.1',
             'PORT': '3306',
-            'CONN_MAX_AGE': 300,
             'URL': f"postgresql+psycopg2://{env('DEV_USER')}:{env('DEV_PASSWORD')}@127.0.0.1:3306/{env('DEV_NAME')}"
         }
     }
@@ -140,9 +139,6 @@ AUTH_USER_MODEL = 'user.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-SOCIAL_AUTH_FACEBOOK_KEY = env('SOCIAL_AUTH_FACEBOOK_KEY')
-SOCIAL_AUTH_FACEBOOK_SECRET = env('SOCIAL_AUTH_FACEBOOK_SECRET')
-
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
