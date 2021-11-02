@@ -1,14 +1,14 @@
-#Hackers Digest
-##Obtain News Stories from [Hacker News API](https://hacker-news.firebaseio.com/v0/)
+# Hackers Digest
+## Obtain News Stories from [Hacker News API](https://hacker-news.firebaseio.com/v0/)
 
-###Features
+### Features
 - Fast Asynchronous and concurrent implementation of requests from the API and writing to database using _asyncio_ library
 
 - Use Advanced Python Scheduler Library **Apscheduler** to periodically look for the latest stories by walking backward from the current largest item
 
 - Google Authentication using Social Django
 
-###Management Commands
+### Management Commands
   #### Use Thread Pool Executor for fast execution. The boolean flag *comment* indicates if you want to add the comments when adding a story
 - ```python manage.py top_stories --comments```
   
@@ -33,7 +33,7 @@
   
 	Walk backward from the current largest item to discover the latest items of different types using https://hacker-news.firebaseio.com/v0/maxitem.json
 	
-###Routes
+### Routes
 - _**/**_
   
 	See latest Stories and Jobs on the homepage
@@ -64,7 +64,7 @@
 	Comment on a story. You have to log in.
 
 
-- **_/news/search**_ 
+- **/news/search** 
   
 	Search the database for a story or job, can use filter to search for Jobs, Ask HN, Show HN.
 
@@ -78,13 +78,13 @@
   
 	See all jobs
 
-###API Endpoints
+### API Endpoints
 - _**/api/stories/**_
   
 	See all stories
 	
 
-- **_/api/jobs_**
+- ***/api/jobs***
 
 	See all jobs
 	
