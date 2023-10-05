@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main">
+    <!-- ======= Hero Slider Section ======= -->
+    <section id="hero-slider" class="hero-slider">
+      <div class="container-md" data-aos="fade-in">
+        <div class="row">
+          <div class="col-12">
+            <div class="swiper sliderFeaturedPosts">
+              <div class="swiper-wrapper">
+                {% for story in latest %}
+                <div class="swiper-slide">
+                  <a href="{{story.get_absolute_url}}" class="img-bg d-flex align-items-end" style="background-image: url({% static slides %});">
+                    <div class="img-bg-inner">
+                      <h2>{{ story.title }}</h2>
+                      {% if story.text %}
+                      <p>{{ story.text|truncatewords_html:15}}</p>
+                      {% endif %}
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="custom-swiper-button-next">
+                <span class="bi-chevron-right"></span>
+              </div>
+              <div class="custom-swiper-button-prev">
+                <span class="bi-chevron-left"></span>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Hero Slider Section -->
+
+    <!-- ======= Post Grid Section ======= -->
+    <section id="posts" class="posts">
+      <div class="container" data-aos="fade-up">
+        <div class="row g-5">
+          <div class="col-lg-4">
+            {% with first_story=latest.1 %}
+            <div class="post-entry-1 lg">
+              <a href="{{ first_story.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+              <div class="post-meta"><span class="date">Stories</span> <span class="mx-1">&bullet;</span> <span>{{ first_story.created|date:"D d M Y"}}</span></div>
+              <h2><a href="{{ first_story.get_absolute_url }}">{{first_story.title}}</a></h2>
+                {% if first_story.text %}
+                <p class="mb-4 d-block">{{ first_story.text|truncatewords_html:15 }}</p>
+                {% endif %}
+              <div class="d-flex align-items-center author">
+                <div class="photo"><img src="{% static persons %}" alt="" class="img-fluid"></div>
+                <div class="name">
+                  <h3 class="m-0 p-0">{{ first_story.user.username }}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endwith %}
+          <div class="col-lg-8">
+            <div class="row g-5">
+              <div class="col-lg-4 border-start custom-border">
+                {% for story in latest|slice:"1:" %}
+                <div class="post-entry-1">
+                  <a href="{{ story.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">News</span> <span class="mx-1">&bullet;</span> <span>{{story.created|date:"D d M Y"}}</span></div>
+                  <h2><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h2>
+                </div>
+                {% endfor %}
+              </div>
+
+              <!-- Trending Section -->
+              <div class="col-lg-4">
+
+                <div class="trending">
+                  <h3>Trending</h3>
+                  <ul class="trending-post">
+                    {% for story in trending %}
+                    <li>
+                      <a href="{{ story.get_absolute_url }}">
+                        <span class="number">{{ counter }}</span>
+                        <h3>{{ story.title }}</h3>
+                        <span class="author">{{ story.user.username}}</span>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+              </div> <!-- End Trending Section -->
+            </div>
+          </div>
+
+        </div> <!-- End .row -->
+      </div>
+    </section> <!-- End Post Grid Section -->
+
+    <!-- ======= Story Category Section ======= -->
+    <section class="category-section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header d-flex justify-content-between align-items-center mb-5">
+          <h2>Tech</h2>
+          <div><a href="{% url 'stories' %}" class="more">See All Tech Stories</a></div>
+        </div>
+
+        <div class="row">
+          {% with story1=stories.1 story2=stories.2 story3=stories.3 story=stories.0 %}
+          <div class="col-md-9">
+            <div class="d-lg-flex post-entry-2">
+              <a href="{{ story.get_absolute_url }}" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
+                <img src="{% static post_landscapes %}" alt="" class="img-fluid">
+              </a>
+              <div>
+                <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:"D d M Y"}}</span></div>
+                <h3><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h3>
+                <p>{{ story.title }}</p>
+                <div class="d-flex align-items-center author">
+                  <div class="photo"><img src="{% static persons %}" alt="" class="img-fluid"></div>
+                  <div class="name">
+                    <h3 class="m-0 p-0">{{ story.user.username}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="post-entry-1 border-bottom">
+                  <a href="{{ story1.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">&bullet;</span><span>{{ story1.created|date:"D d M Y"}}</span></div>
+                  <h2 class="mb-2"><a href="{{ story1.get_absolute_url }}">{{ story1.title }}</a></h2>
+                  <span class="author mb-3 d-block">{{ story1.user.username}}</span>
+                  {% if story1.text %}
+                  <p class="mb-4 d-block">{{ story1.text|truncatewords_html:15 }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="post-entry-1">
+                  <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">&bullet;</span><span>{{ story2.created|date:"D d M Y"}}</span></div>
+                  <h2 class="mb-2"><a href="{{ story2.get_absolute_url }}">{{ story2.title }}</a></h2>
+                  <span class="author mb-3 d-block">{{ story2.user.username}}</span>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="post-entry-1">
+                  <a href="{{story3.get_absolute_url}}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">&bullet;</span> <span>{{ story3.created|date:"D d M Y"}}</span></div>
+                  <h2 class="mb-2"><a href="{{ story3.get_absolute_url }}">{{ story3.title }}</a></h2>
+                  <span class="author mb-3 d-block">{{ story3.user.username}}</span>
+                  {% if story3.text %}
+                  <p class="mb-4 d-block">{{ story3.text }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endwith %}
+
+          <div class="col-md-3">
+            {% for story in stories|slice:"3:" %}
+            <div class="post-entry-1 border-bottom">
+              <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:"D d M Y" }}</span></div>
+              <h2 class="mb-2"><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h2>
+              <span class="author mb-3 d-block">{{ story.user.username }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section><!-- End Story Section -->
+
+    <!-- ======= Ask Section ======= -->
+    <section class="category-section">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header d-flex justify-content-between align-items-center mb-5">
+          <h2>Ask Stories</h2>
+          <div><a href="{% url 'ask' %}" class="more">See All Ask Stories</a></div>
+        </div>
+
+        <div class="row">
+        {% with first=asks.0 second=asks.1 third=asks.2 fourth=asks.3 %}
+          <div class="col-md-9 order-md-2">
+            <div class="d-lg-flex post-entry-2">
+              <a href="{{ first.get_absolute_url }}" class="me-4 thumbnail d-inline-block mb-4 mb-lg-0">
+                <img src="{% static post_landscapes %} }" alt="" class="img-fluid">
+              </a>
+              <div>
+                <div class="post-meta"><span class="date">Ask Stories</span> <span class="mx-1">&bullet;</span> <span></span></div>
+                <h3><a href="{{ first.get_absolute_url }}">{{ first.title }}</a></h3>
+                  {% if first.text %}
+                  <p>{{ first.text|truncatewords_html:15 }}</p>
+                  {% endif %}
+                <div class="d-flex align-items-center author">
+                  <div class="photo"><img src="{% static persons %}" alt="" class="img-fluid"></div>
+                  <div class="name">
+                    <h3 class="m-0 p-0">{{ first.user.username }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="post-entry-1 border-bottom">
+                  <a href="{{ second.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Ask Stories</span> <span class="mx-1">&bullet;</span>
+                      <span>{{ second.created|date:'D d M Y'}}</span></div>
+                  <h2 class="mb-2"><a href="{{ second.get_absolute_url }}">{{ second.title }}</a></h2>
+                  <span class="author mb-3 d-block">{{ second.user.username }}</span>
+                  {% if second.text %}
+                  <p class="mb-4 d-block">{{ second.text|truncatewords_html:15}}</p>
+                  {% endif %}
+                </div>
+
+                <div class="post-entry-1">
+                  <div class="post-meta"><span class="date">Ask Stories</span> <span class="mx-1">&bullet;</span>
+                      <span>{{third.created|date:'D d M Y'}}</span></div>
+                  <h2 class="mb-2"><a href="{{ third.get_absolute_url }}">{{ third.title }}</a></h2>
+                  <span class="author mb-3 d-block">{{ third.user.username }}</span>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="post-entry-1">
+                  <a href="{{ fourth.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Ask Stories</span> <span class="mx-1">&bullet;</span> <span>{{ fourth.created|date:'D d M Y' }}</span></div>
+                  <h2 class="mb-2"><a href="{{ fourth.get_absolute_url }}">{{fourth.title}}</a></h2>
+                  <span class="author mb-3 d-block">{{ fourth.user.username }}</span>
+                  {% if fourth.text %}
+                  <p class="mb-4 d-block">{{ fourth.text|truncatewords_html:15 }}</p>
+                  {% endif  %}
+                </div>
+              </div>
+            </div>
+          </div>
+         {%  endwith %}
+          <div class="col-md-3">
+            {% for story in asks|slice:'4:' %}
+            <div class="post-entry-1 border-bottom">
+              <div class="post-meta"><span class="date">Ask Stories</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:'D d M Y' }}</span></div>
+              <h2 class="mb-2"><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h2>
+              <span class="author mb-3 d-block">{{ story.user.username }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section><!-- Ask Stories Section -->
+
+    <!-- ======= Show Stories Category Section ======= -->
+    <section class="category-section">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header d-flex justify-content-between align-items-center mb-5">
+          <h2>Show Stories</h2>
+          <div><a href="{% url 'show' %}" class="more">See All Show Stories</a></div>
+        </div>
+
+        <div class="row g-5">
+          {% with first=shows.0 second=shows.1 third=shows.2 %}
+          <div class="col-lg-4">
+            <div class="post-entry-1 lg">
+              <a href="{{ first.get_absolute_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+              <div class="post-meta"><span class="date">Show</span> <span class="mx-1">&bullet;</span> <span>{{ first.created|date:'D d M Y'}}</span></div>
+              <h2><a href="{{ first.get_absolute_url }}">{{ first.title }}</a></h2>
+                {% if first.text %}
+                <p class="mb-4 d-block">{{ first.text|truncatewords_html:15 }}</p>
+                {% endif %}
+              <div class="d-flex align-items-center author">
+                <div class="photo"><img src="{% static persons %}" alt="" class="img-fluid"></div>
+                <div class="name">
+                  <h3 class="m-0 p-0">{{ first.user.username }}</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-entry-1 border-bottom">
+              <div class="post-meta"><span class="date">Show Stories</span> <span class="mx-1">&bullet;</span> <span>{{ second.created|date:'D d M Y' }}</span></div>
+              <h2 class="mb-2"><a href="{{ second.get_absolute_url }}">{{ second.title}}</a></h2>
+              <span class="author mb-3 d-block">{{ second.user.username }}</span>
+            </div>
+
+            <div class="post-entry-1">
+              <div class="post-meta"><span class="date">Show Stories</span> <span class="mx-1">&bullet;</span> <span>{{ third.created|date:'D d M Y'}}</span></div>
+              <h2 class="mb-2"><a href="{{ third.get_absolute_url }}">{{ third.title }}</a></h2>
+              <span class="author mb-3 d-block">{{ third.user.username}}</span>
+            </div>
+          </div>
+          {% endwith %}
+
+          <div class="col-lg-8">
+            <div class="row g-5">
+              <div class="col-lg-4 border-start custom-border">
+                {% for story in shows|slice:'3:5' %}
+                <div class="post-entry-1">
+                  <a href="{{ story.get_absolut_url }}"><img src="{% static post_landscapes %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Show Stories</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:'D d M Y'}}</span></div>
+                  <h2><a href="{{ story.get_absolute_url }}">{{ story.title}}</a></h2>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="col-lg-4 border-start custom-border">
+                {% for story in shows|slice:'6:8' %}
+                <div class="post-entry-1">
+                  <a href="{{ story.get_absolute_url }}"><img src="{% static 'img/post-landscape-3.jpg' %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Show Stories</span> <span class="mx-1">&bullet;</span> <span>{{story.created|date:'D d M Y'}}</span></div>
+                  <h2><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h2>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="col-lg-4">
+                {% for story in shows|slice:'9:' %}
+                <div class="post-entry-1">
+                  <a href="{{ story.get_absolute_url }}"><img src="{% static 'img/post-landscape-3.jpg' %}" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Show Stories</span> <span class="mx-1">&bullet;</span> <span>{{story.created|date:'D d M Y'}}</span></div>
+                  <h2><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h2>
+                </div>
+                {% endfor %}
+              </div>
+          </div>
+
+        </div> <!-- End .row -->
+      </div>
+    </section><!-- End Show Stories Category Section -->
+
+  </main><!-- End #main -->
+{% endblock content %}
+

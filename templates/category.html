@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main id="main">
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9" data-aos="fade-up">
+            <h3 class="category-title">Category: {{ category }}</h3>
+            {% for story in page_obj %}
+            <div class="d-md-flex post-entry-2 half">
+              <a href="{{ story.get_absolute_url }}" class="me-4 thumbnail">
+                <img src="{% static post_landscapes %}" alt="" class="img-fluid">
+              </a>
+              <div>
+                <div class="post-meta"><span class="date">{{ category }}</span> <span class="mx-1">&bullet;</span> <span>{{ story.date }}</span></div>
+                <h3><a href="{{ story.get_absolute_url }}">{{ story.title }}</a></h3>
+                {% if story.text %}
+                <p>{{ story.text|truncatewords_html:15 }}</p>
+                {% endif %}
+                <div class="d-flex align-items-center author">
+                  <div class="photo"><img src="{% static persons %}" alt="" class="img-fluid"></div>
+                  <div class="name">
+                    <h3 class="m-0 p-0">{{ story.user.username }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            <div class="text-start py-4">
+              <div class="custom-pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="prev">Previous</a>
+                {% endif %}
+                {% for page in pages %}
+                <a href="?page={{ page }}" class="active">{{ page }}</a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="next">Next</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% include 'sidebar.html' %}
+        </div>
+      </div>
+    </section>
+  </main><!-- End #main -->
+{% endblock content %}

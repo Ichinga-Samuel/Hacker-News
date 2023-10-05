@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "django_settings": "HackerNews.settings",
+        "profile_name": "default",
+        "project_name": "hackernews",
+        "runtime": "python3.11",
+        "s3_bucket": "hackernews-deployment",
+        "aws_region": "eu-west-1"
+    }
+}

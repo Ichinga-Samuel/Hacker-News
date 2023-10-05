@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <main id="main">
+  <section class="single-post-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9 post-content" data-aos="fade-up">
+            <!-- ======= Single Post Content ======= -->
+            <div class="single-post">
+              <div class="post-meta"><span class="date">{{ category }}</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:'D d M Y'}}</span></div>
+              <h1 class="mb-5"><a href="{{ story.url|default_if_none:story.get_absolute_url }}">{{ story.title }}</a></h1>
+                {% if story.text %}
+                  <figure class="my-4">
+                    <img src="{% static post_landscapes %}" alt="" class="img-fluid">
+                    <figcaption>{{ story.title }}</figcaption>
+                  </figure>
+                  <article>{{ story.text }}</article>
+                 {% else %}
+                    <iframe referrerpolicy="no-referrer" allow="fullscreen" loading="lazy" height="600px" width="100%" src="{{ story.url }}" title="{{ story.title }}"></iframe>
+                {% endif %}
+              {% if user == story.user or user.is_admin %}
+              <div class="">
+                  <button class="btn btn-primary"><a href="{{ story.get_edit_url }}">Edit</a></button>
+                  <button class="btn btn-danger"><a href="{% url 'story-delete' story.type story.id %}">Delete</a></button>
+              </div>
+              {% endif %}
+            </div><!-- End Single Post Content -->
+            <!-- ======= Comments ======= -->
+
+            {% if comments.count %}
+            <div class="comments">
+                <h5 class="comment-title py-4">{{ comments.count }} Comment{{ comments.count|pluralize }}</h5>
+              {% for comment in story.comments.all %}
+              <div class="comment d-flex mb-4">
+                <div class="flex-shrink-0">
+                  <div class="avatar avatar-sm rounded-circle">
+                    <img class="avatar-img" src="{% static persons %}" alt="" class="img-fluid">
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-2 ms-sm-3">
+                  <div class="comment-meta d-flex align-items-baseline">
+                    <h6 class="me-2">{{ comment.user.username}}</h6>
+                    <h6 class="text-muted mb-0 me-2">{{ comment.created|timesince }}</h6>
+                    {% if comment.user == user or user.is_admin  %}
+                    <h6 class="text-muted mb-0 me-2"><a href="{% url 'comment-delete' story.id comment.id %}">Delete</a></h6>
+                    {% endif %}
+                  </div>
+                  <div class="comment-body">{{ comment.text }}</div>
+                  {% if comment.replies.all.count %}
+                  <div class="comment-replies bg-light p-3 mt-3 rounded">
+                    <h6 class="comment-replies-title mb-4 text-muted text-uppercase">{{ comment.replies.all.count }} Repl{{ comment.replies.all.count|pluralize:'y,ies'}}</h6>
+                    {% for reply in comment.replies.all %}
+                    <div class="reply d-flex mb-4">
+                      <div class="flex-shrink-0">
+                        <div class="avatar avatar-sm rounded-circle">
+                          <img class="avatar-img img-fluid" src="{% static persons %}" alt="">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1 ms-2 ms-sm-3">
+                        <div class="reply-meta d-flex align-items-baseline">
+                          <h6 class="mb-0 me-2">{{ reply.user.username }}</h6>
+                          <h6 class="mb-0 me-2">{{ reply.created|timesince }} ago</h6>
+                          {% if reply.user == user or comment.user == user  or user.is_admin %}
+                          <h6 class="mb-0 me-2"><a href="{% url 'comment-delete' story.id reply.id  %}">Delete</a></h6>
+                          {% endif %}
+                        </div>
+                        <div class="reply-body">{{ reply.text }}</div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div><!-- End Comments -->
+          {% endif %}
+
+            <!-- ======= Comments Form ======= -->
+            <div class="row justify-content-center mt-5">
+              <div class="col-lg-12">
+                <h5 class="comment-title">Leave a Comment</h5>
+                <div class="row">
+                  <form action="{% url 'comment-create' %}" method="post">
+                      {% csrf_token %}
+                      <div class="col-12 mb-3">
+                          <label for="comment-message">Message</label>
+                          {{ comment_form.text }}
+                      </div>
+                    <div class="col-12">
+                        <input type="hidden" name="parent" value="{{story.type}}">
+                        <input type="hidden" name="parent_id" value="{{ story.id }}">
+                        <input type="hidden" name="story_url" value="{{ story.get_absolute_url }}">
+                        <input type="submit" class="btn btn-primary" value="Post comment">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div><!-- End Comments Form -->
+
+          </div>
+          <!-- ======= Sidebar ======= -->
+          {% include 'sidebar.html' %}
+        </div>
+      </div>
+    </section>
+</main>
+{% endblock content %}

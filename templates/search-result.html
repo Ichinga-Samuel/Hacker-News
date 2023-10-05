@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main id="main">
+    <!-- ======= Search Results ======= -->
+    <section id="search-result" class="search-result">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            {% if results %}
+            <h3 class="category-title">Search Results</h3>
+            {% for story in results %}
+            <div class="d-md-flex post-entry-2 small-img">
+              <a href="{{ story.get_absolute_url }}" class="me-4 thumbnail">
+                <img src="{% static 'img/post-landscape-6.jpg' %}" alt="" class="img-fluid">
+              </a>
+              <div>
+                <div class="post-meta"><span class="date">News</span> <span class="mx-1">&bullet;</span> <span>{{ story.created|date:'D d M Y' }}</span></div>
+                <h3><a href="{{story.get_absolute_url}}">{{ story.title }}</a></h3>
+                  {% if story.text %}
+                    <p>{{ story.text|truncatewords_html:15 }}</p>
+                  {% endif %}
+                <div class="d-flex align-items-center author">
+                  <div class="photo"><img src="{% static 'img/person-2.jpg' %}" alt="" class="img-fluid"></div>
+                  <div class="name">
+                    <h3 class="m-0 p-0">{{ story.user.username }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            <!-- Paging -->
+            <div class="text-start py-4">
+              <div class="custom-pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?query={{ query }}&page={{ page_obj.previous_page_number }}" class="prev">Previous</a>
+                {% endif %}
+                {% for page in pages %}
+                <a href="?query={{ query }}&page={{ page }}" class="active">{{ page }}</a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?query={{ query }}&page={{ page_obj.next_page_number }}" class="next">Next</a>
+                {% endif %}
+              </div>
+            </div>
+          {% else %}
+            <h3 class="category-title">No Results Found</h3>
+          {% endif %}
+          </div>
+          {% include 'sidebar.html' %}
+          </div>
+        </div>
+    </section> <!-- End Search Result -->
+
+  </main><!-- End #main -->
+{% endblock content %}
+
