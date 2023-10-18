@@ -2,7 +2,7 @@ import asyncio
 from typing import Type, TypeVar
 from logging import getLogger
 from dataclasses import dataclass, field
-from enum import StrEnum
+from enum import Enum
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -22,7 +22,7 @@ def get_default_password():
     return 'TheDefaultP@ssw0rd'
 
 
-class Types(StrEnum):
+class Types(Enum):
     JOB = 'job'
     STORY = 'story'
     COMMENT = 'comment'

@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - "deployment=docker"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-bullseye
+
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+
+    env_file:
+      - .env
+
+volumes:
+  db_data:    

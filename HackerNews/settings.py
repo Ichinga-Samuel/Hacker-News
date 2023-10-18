@@ -77,24 +77,20 @@ WSGI_APPLICATION = 'HackerNews.wsgi.application'
 
 local_db = {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT')
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('LOCAL_POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT')
 }
 
-aws_db = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('AWS_DB_PASSWORD'),
-        'HOST': env('AWS_DB_HOST'),
-        'PORT': env('DB_PORT')
-    }
+aws_db = local_db | {'PASSWORD': env('AWS_POSTGRES_PASSWORD'), 'HOST': env('AWS_POSTGRES_HOST')}
+
+docker_db = local_db | {'HOST': env('DOCKER_POSTGRES_HOST')}
+
 
 DATABASES = {
-    'default': local_db if env('local') else aws_db
+    'default': {'local': local_db, 'docker': docker_db, 'aws': aws_db}[env('deployment')]
 }
 # Authentication
 AUTH_USER_MODEL = 'account.User'
