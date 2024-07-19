@@ -1,0 +1,27 @@
+
+<div class="col container my-2" style="border-top: 2px inset ;">
+  <div class="d-flex pt-2">
+    <span class="me-auto rounded-circle profile badge">{{ comment.by }}</span>
+    <span class="small">{{ comment.time|date }}</span>
+  </div>
+  {% autoescape off %}
+    <p class="">{{ comment.text }}</p>
+  {% endautoescape %}
+  <div class="col">
+    {% if request.user.is_authenticated %}
+      <span class="material-icons align-top" data-bs-target="#m{{ comment.id }}" data-bs-toggle="collapse">reply</span>
+    {% endif %}
+    {% if comment.comments.all %}
+      <button class="align-top btn" data-bs-toggle="collapse" data-bs-target="#comments{{ comment.id }}">See {{ comment.comments.all| length}} Replies</button>
+    {% endif %}
+  </div>
+  <div class="collapse mt-2" id="m{{ comment.id }}">
+    <textarea name="" id="t{{ comment.id }}" cols="30" rows="4" class="form-control"></textarea>
+    <button class="add_comment my-2 ms-auto btn" data-cid="{{ comment.id }}" url="{% url 'news:comment' %}">Post</button>
+  </div>
+    <div class="collapse" id="comments{{ comment.id }}">
+      {% for comment in comment.comments.all %}
+        {% include 'comment.html' with comment=comment%}
+      {% endfor %}
+    </div>
+</div>

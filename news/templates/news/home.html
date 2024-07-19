@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <main class="container-fluid row mt-3 mb-2">
+  <div class="col-lg-8 col-md-auto mb-5">
+    <section class="col mb-lg-5 mb-sm-3">
+      <h2 class="ms-2">Latest</h2>
+      <div class="row row-cols-auto gap-1 mx-auto">
+        {% for story in stories %}
+          <div class="col">
+            {% include 'story.html' with story=story %}
+          </div>
+        {% endfor %}
+      </div>
+  </section>
+    <section class="mb-lg-5 mb-sm-3 col">
+      <h2 class="ms-2">Ask Stories</h2>
+      <div class="row row-cols-auto gap-1 mx-auto">
+        {% for story in asks %}
+          <div class="col">
+            {% include 'story.html' with story=story %}
+          </div>
+        {% endfor %}
+      </div>
+  </section>
+    <section class="mb-lg-5 mb-sm-3">
+      <h2 class="ms-2">Show Stories</h2>
+      <div class="row row-cols-auto gap-1 mx-auto">
+        {% for story in shows %}
+          <div class="col-auto">
+            {% include 'story.html' with story=story %}
+          </div>
+        {% endfor %}
+      </div>
+  </section>
+  </div>
+  <div class="col-lg-4 col-md-auto">
+    <h2 class="ms-2">Jobs</h2>
+    <div class="row row-cols-auto gap-1 mx-auto">
+      {% for job in jobs %}
+        <div class="col">
+          {% include 'job.html' with job=job %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  </main>
+{% endblock content %}

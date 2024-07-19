@@ -1,0 +1,18 @@
+
+<div class="card h-100" style="width: 500px">
+  <div class="card-body sec h-100">
+    <h6 class="card-title"><a href="{{ res.get_absolute_url }}" class="text-decoration-none">{{ res.title|title }}</a></h6>
+    {% if res.text %}
+      {% autoescape off %}
+        <p class="card-text">{{ res.text|truncatewords:30 }}</p>
+      {% endautoescape %}
+    {% endif %}
+  </div>
+  <div class="card-footer p-0 sec">
+    <div class="m-auto d-flex flex-wrap p-0">
+      <p class="col-auto me-2">{{ res.by }}</p>
+      <p class="col-auto">{{ res.time|date }}</p>
+      <a href="{{ res.get_absolute_url }}" class="col-auto ms-auto">Read More</a>
+    </div>
+  </div>
+</div>

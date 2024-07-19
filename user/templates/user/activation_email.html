@@ -1,0 +1,17 @@
+{% extends 'email.html' %}
+
+{% block body %}
+  <tr>
+    <td>
+      Thanks for registering with us click the button below to activate your account
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="">
+        <button><a href="http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}" class="">Activate</a></button>
+        <p>If the link doesn’t work, copy this URL into your browser: http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}</p>
+      </div>
+    </td>
+  </tr>
+{% endblock body %}

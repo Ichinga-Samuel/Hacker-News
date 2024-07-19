@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" >
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  {% block title %}
+    <title>Hacker's Digest</title>
+  {% endblock  %}
+</head>
+<body>
+  {% csrf_token %}
+  <script class="">
+  document.addEventListener('readystatechange', e => {
+      if (e.target.readyState === "complete") {
+          let ele = document.getElementById('url')
+          if(ele){
+              let url = ele.getAttribute('data-url')
+              ele.setAttribute('src', url)
+          }
+          let elems = document.getElementsByClassName('add_comment')
+          for(let el of elems){
+            let comment = el.getAttribute('data-cid')
+            let story = el.getAttribute('data-sid')
+            let preEle = el.previousElementSibling
+            preEle.addEventListener('click', async e =>{
+                let text = comment ? document.getElementById(`t${comment}`): document.getElementById(`t${story}`)
+                text.value = ""
+            })
+            el.addEventListener('click', async e => {
+              let url = el.getAttribute('data-url')
+              let data = {}
+              let t;
+              if(comment){
+                  t = document.getElementById(`t${comment}`)
+                  let text = t.value
+                  data['comment_id'] = comment
+                  data['text'] = text
+              }
+              if(story){
+                  t = document.getElementById(`t${story}`)
+                  let text = t.value
+                  data['story_id'] = story
+                  data['text'] = text
+              }
+
+              let user_id = {{request.user.id}}
+              data['user_id'] = user_id
+              data = JSON.stringify(data)
+              const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+              let headers = {'X-CSRFToken': csrftoken, 'Content-Type': 'application/json'}
+              let res = await fetch(url, {method: 'POST', mode: "same-origin", headers, body: data, })
+              res = await res.json()
+              if(res){t.value = ''; location.reload()}
+      })}}
+  })
+</script>
+  <div class="shell">
+    <header class="container-fluid mb-3">
+      <div class="col-auto position-relative mb-2">
+        <h6 class="ms-3">
+          {% now "D d M Y"  %}
+        </h6>
+        <h1 class="position-absolute top-0 start-50 translate-middle-x">
+          <a href="{% url 'news:home' %}" class="navbar-brand">Hackers Digest</a>
+        </h1>
+      </div>
+      {% block navbar %}
+        <nav class="navbar navbar-expand-lg mx-auto">
+          <div class="px-3 col">
+            <button class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#nav-contents">
+              <span class="navbar-toggler-icon bg-body"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav-contents">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a href="{% url 'news:stories' %}" class="nav-link">Top Stories</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'news:ask' %}" class="nav-link">Ask Stories</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'news:show' %}" class="nav-link">Show Stories</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'jobs:jobs' %}" class="nav-link">Jobs</a>
+                </li>
+              </ul>
+              <div class="navbar-nav">
+                  <div class="nav-item align-text-bottom"><span class="material-icons nav-link" data-bs-target="#search" data-bs-toggle="collapse">search</span></div>
+                  <div class="nav-item dropdown align-text-bottom">
+                    {% if request.user.is_authenticated %}
+                      <a href="" class="nav-link dropdown-toggle text-uppercase"  data-bs-toggle="dropdown">{{ user.username }}</a>
+                      {% else %}
+                        <a href="" class="nav-link dropdown-toggle"  data-bs-toggle="dropdown">Login</a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                      {% if not request.user.is_authenticated %}
+                        <li><a href="{% url 'user:signup' %}" class="dropdown-item">Signup</a></li>
+                        <li><a href="{% url 'user:login' %}" class="dropdown-item">Login</a></li>
+                        {% else %}
+                          <li><a href="{% url 'user:logout' %}" class="dropdown-item">Logout</a></li>
+                          <li><a href="{% url 'user:user_profile' request.user.id %}" class="dropdown-item">Profile</a></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+          <div class="col-md-4 col-md-offset-8 col-sm-auto ms-auto p-2 collapse" id="search">
+            <form action="{% url 'news:search' %}" class="col-auto" method="get">
+              <div class="mb-1 d-flex">
+                <input type="text" class="form-control" placeholder="search" name="search" style="border-style: none">
+                <button class="me-auto align-self-center btn" style="border-style: none" type="submit"><span class="mx-auto align-baseline material-icons">search</span></button>
+              </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="true" name="all" checked>
+                  <label class="form-check-label" for="inlineCheckbox">Everywhere</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true" name="ask">
+                  <label class="form-check-label" for="inlineCheckbox1">Ask</label>
+                </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="true" name="show">
+                <label class="form-check-label" for="inlineCheckbox2">Show</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true" name="job">
+                <label class="form-check-label" for="inlineCheckbox3">Job</label>
+              </div>
+            </form>
+          </div>
+      {% endblock %}
+    </header>
+    {% if messages %}
+      <div class="container mx-auto col-md-8 col-sm-auto my-5">
+        {% for msg in messages %}
+          <div class="alert alert-dismissible fade show alert-{{ msg.level_tag }} text-center">
+            {{ msg|title }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
+  </div>
+  <div class="foot">
+    {% block paginate %}
+        {% if is_paginated %}
+          <div class="container col-auto p-1">
+            <nav class="">
+              <ul class="pagination justify-content-center flex-wrap">
+                {% if page_obj.has_previous %}
+                  <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo;</a></li>
+                {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              {% endif %}
+              {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                  <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                  <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a></li>
+              {% else %}
+                <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+              {% endif %}
+          </ul>
+      </nav>
+          </div>
+        {% endif %}
+      {% endblock paginate %}
+    <footer class="" >
+      <p class="m-auto text-center">&copy;Hackers Digest</p>
+    </footer>
+  </div>
+</body>
+</html>

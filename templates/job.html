@@ -1,0 +1,10 @@
+{% load humanize %}
+
+<div class=" card h-100 sec" style="max-width: 400px">
+  <div class="card-body">
+    <h6 class=""><a href="{{ job.get_absolute_url }}" class="text-decoration-none">{{ job.title|title }}</a></h6>
+  </div>
+  <div class="card-footer">
+    <span>{{ job.time|date }}</span>
+  </div>
+</div>

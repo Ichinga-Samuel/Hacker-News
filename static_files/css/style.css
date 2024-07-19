@@ -1,0 +1,100 @@
+html {
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+    /*overflow-x: hidden;*/
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: green;
+}
+.shell{
+    flex: 1 0 auto !important;
+}
+
+.foot{
+    flex-shrink: 0;!important;
+}
+
+.primary{
+    color: #f6c453;
+}
+.sec{
+    background-color: #121212;
+}
+.stories{
+    background-color: #505050;
+}
+/*header{*/
+/*  background-color: #943d24 !important;*/
+/*}*/
+
+.hed{
+    background-color: #121212;
+    color:blueviolet
+}
+
+.nav-link, .navbar-brand{
+  color: green;
+  font-size: larger;
+}
+a{
+    color: blueviolet
+}
+
+div.card a{
+    color: blueviolet !important;
+    text-decoration-line: none;
+}
+.test{
+    color: blueviolet !important;
+}
+
+.btn{
+    background-color: darkviolet;
+    color: #ffffff;
+}
+span.material-icons-outline{
+    color: #ffffff;
+    cursor: pointer;
+}
+.br{
+    color: #f6c453;
+}
+
+.not{
+    color: #f6c453;
+}
+
+.profile{
+    background-color: blueviolet;
+}
+
+.pc{
+    max-width: 25vw;
+    max-height: 25vw;
+    border-radius: 50%; border: 1px double;
+    line-height: 25vw;
+}
+.pi{
+    font-size: 12.5vw;
+}
+
+.google{
+    background-color: blue !important;
+}
+
+.google a{
+     color: #f6c453; !important;
+     text-decoration: none;
+}
+

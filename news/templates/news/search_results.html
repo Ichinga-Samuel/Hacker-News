@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Hackers Digest:Search Results for {{ query }}</title>
+{% endblock %}
+{% block content %}
+  {% if null %}
+      <p class="container mt-3 h5 fst-italic shell">No Result Matching Your Query:{{ query }}</p>
+    {% endif %}
+  {% if not null %}
+    <main class="container-fluid mt-5 mb-3 row row-cols-auto">
+    {% if stories %}
+      <section class="col container mt-4">
+      <h5 class="col-auto">Search Results</h5>
+      {% for story in stories %}
+        <div class="col-auto mt-3">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if asks  %}
+      <section class="col container mt-4">
+      <h5 class="col-auto">Ask Stories Results</h5>
+      {% for story in asks %}
+        <div class="col-auto mt-3">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if shows %}
+      <section class="col container mt-4">
+      <h5 class="col-auto">Show Stories Results</h5>
+      {% for story in shows %}
+        <div class="col-auto mt-3">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+    {% if jobs %}
+      <section class="col container mt-4">
+      <h5 class="">Job Results</h5>
+      {% for story in jobs %}
+        <div class="col-auto mt-3">
+          {% include 'search.html' with res=story %}
+        </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </main>
+  {% endif %}
+{% endblock content %}

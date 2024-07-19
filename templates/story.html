@@ -1,0 +1,19 @@
+{% load humanize %}
+
+<div class="card h-100 sec" style="width: 300px">
+  <div class="card-body">
+    <h6 class="card-title"><a href="{{ story.get_absolute_url }}" class="test text-decoration-none">{{ story.title|title }}</a></h6>
+  </div>
+</div>
+
+{#    {% if story.text %}#}
+{#      <p class="card-text">{{ story.text|striptags|truncatewords:20}}...</p>#}
+{#    {% endif %}#}
+
+{#  <div class="card-footer">#}
+{#    <div class="d-flex p-0 flex-wrap">#}
+{#      <span class="">{{ story.by|upper }}</span>#}
+{#      <span class="mx-2">{{ story.time|date }}</span>#}
+{#      <a href="{{ story.get_absolute_url }}" class="ms-auto">Read More</a>#}
+{#    </div>#}
+{#  </div>#}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+  <title>{{job.title}}</title>
+{% endblock %}
+{% block content %}
+  <main class="container-fluid">
+    <section class="container">
+      {% if job.url %}
+        <article class="container ratio ratio-1x1">
+          <iframe src="" title="{{ job.title }}" class="" sandbox style="border: none" id="url" data-url="{{ job.url }}"></iframe>
+        </article>
+        {% else %}
+        {% autoescape off %}
+          <h3 class="">{{job.title}}</h3>
+          <p class="">{{ job.text }}</p>
+        {% endautoescape %}
+      {% endif %}
+    </section>
+  </main>
+{% endblock content %}
